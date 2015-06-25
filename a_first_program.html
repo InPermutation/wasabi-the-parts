@@ -1,0 +1,136 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>A First Program &mdash; Wasabi: The ??? Parts v0.1 documentation</title>
+    <link rel="stylesheet" href="_static/wasabi.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Wasabi: The ??? Parts v0.1 documentation" href="index.html" />
+    <link rel="next" title="Expressions" href="expressions.html" />
+    <link rel="prev" title="A Brief and Highly Inaccurate History of Wasabi" href="introduction.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="expressions.html" title="Expressions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="introduction.html" title="A Brief and Highly Inaccurate History of Wasabi"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Wasabi: The ??? Parts v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="a-first-program">
+<h1>A First Program<a class="headerlink" href="#a-first-program" title="Permalink to this headline">¶</a></h1>
+<p>A guide to a programming language would be incomplete without at least one complete program and since Wasabi is intimately tied to generating web pages here&#8217;s a Wasabi program for generating a simple HTML page:</p>
+<div class="highlight-python"><pre>&lt;%
+&lt;WebEntryPoint("example.asp")&gt; _
+Sub Example()
+  %&gt;
+  &lt;!DOCTYPE html&gt;
+  &lt;html&gt;
+    &lt;head&gt;
+      &lt;title&gt;An Example Wasabi Program&lt;/title&gt;
+      &lt;meta charset="utf-8"&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+      &lt;h1&gt;An Example Wasabi Program&lt;/h1&gt;
+      &lt;p&gt;Arithmetic: 1 + 1 = &lt;%= 1 + 1 %&gt;&lt;/p&gt;
+      &lt;p&gt;Dynamic Content: x + y = &lt;%= IntRequest("x") + IntRequest("y") %&gt;
+    &lt;/body&gt;
+  &lt;/html&gt;
+  &lt;%
+End Sub
+%&gt;</pre>
+</div>
+<p>A couple of interesting things about this program:</p>
+<ol class="arabic simple">
+<li>The entire thing is enclosed in tie-fighters (<tt class="xref std std-token docutils literal"><span class="pre">&lt;%</span></tt> <tt class="xref std std-token docutils literal"><span class="pre">%&gt;</span></tt>). This is a consequence of it&#8217;s classic ASP heritage where each file was assumed to be generating a web page and so FogBugz&#8217;s entire Wasabi code base lives inside <tt class="xref std std-token docutils literal"><span class="pre">&lt;%</span></tt> and <tt class="xref std std-token docutils literal"><span class="pre">%&gt;</span></tt> so it&#8217;s not dumped directly to the response.</li>
+<li><tt class="docutils literal"><span class="pre">&lt;WebEntryPoint(&quot;example.asp&quot;)&gt;</span></tt> is an annotation that marks the following subroutine as generating a web page at <tt class="docutils literal"><span class="pre">/example.asp</span></tt>.</li>
+<li>[1] combined with [2] result in actual content destined for the response being wrapped in reverse-tie-fighters (<tt class="xref std std-token docutils literal"><span class="pre">%&gt;</span></tt> <tt class="xref std std-token docutils literal"><span class="pre">&lt;%</span></tt>) with dynamic content being injected with <tt class="xref std std-token docutils literal"><span class="pre">&lt;%=</span></tt> <tt class="xref std std-token docutils literal"><span class="pre">%&gt;</span></tt>.</li>
+</ol>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="introduction.html"
+                        title="previous chapter">A Brief and Highly Inaccurate History of Wasabi</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="expressions.html"
+                        title="next chapter">Expressions</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/a_first_program.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="expressions.html" title="Expressions"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="introduction.html" title="A Brief and Highly Inaccurate History of Wasabi"
+             >previous</a> |</li>
+        <li><a href="index.html">Wasabi: The ??? Parts v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Fog Creek Software.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

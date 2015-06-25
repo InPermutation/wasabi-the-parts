@@ -1,0 +1,17 @@
+@import "default.css";
+
+pre {
+	background-color: transparent;
+	border-color: transparent;
+	margin-left: 1em;
+}
+
+body .highlight, .warning tt, .note tt, tt {
+	background-color: transparent;
+}
+
+
+.std-term {
+	font-family: monospace;
+	font-style: normal;
+}

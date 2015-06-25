@@ -1,0 +1,421 @@
+Statements
+==========
+
+.. index::
+	keyword: Comment
+	keyword: '
+
+Comments
+--------
+Comments are defined using single quotes :token:`'`. The comment starts at the single quote and continues until the end of the line (Wasabi doesn't have block comments)::
+
+	' This is a comment.
+	' It doesn't do anything
+
+... remember that good comments explain the rational for doing something rather than how the code works. If you find yourself writing comments explaining how your code works it's probably too complicated and/or magical and will be difficult for you (or me) to debug later. You should reconsider your variable and method names and your algorithmic approach so that it's more obvious to lesser minds (like mine) what's going on and. Always keep in mind this sage advice from Kernighan:
+
+	"Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it." - Brian W. Kernighan
+
+
+.. index::
+	keyword: Const
+
+.. _Const:
+
+Const
+-----
+The :keyword:`Const` keyword allows you to define compile time constants which are restricted to value types and Strings::
+
+	Const COLWIDTH_LONG_TEXT = 350
+
+... by convention constants have ``UNDERSCORE_SEPARATED_UPPER_CASE_NAMES``.
+
+
+.. index::
+	keyword: Doc Comment
+	keyword: '''
+
+Doc Comments
+------------
+Doc comments are defined using triple single quotes :token:`'''`. They can be extracted by tools and are very useful for documenting public APIs. Unlike normal comments, and abundance of doc comments is not an indication that your code is too complicated. In fact, all public API should have accompanying doc comments that explain how the API is used ::
+
+	''' This is an abbreviated doc comment
+	Public Method()
+
+	''' <summary>This is a long form doc comment</summar>
+	''' <param name="param1">A description parameter.</param>
+	''' <returns>A description of the return value</returns>
+	Public OtherMethod(param1)
+	
+
+.. index::
+	keyword: Dim
+	keyword: As
+
+.. _As:
+.. _Dim:
+
+Dim
+---
+.. note::
+
+	Identifiers are really important, so important that code complete has an entire chapter on them. While you should totally read it, the short version is that identifiers should:
+
+	* Be descriptive.
+	* Not overly long.
+	* Avoid unnecessary abbreviation.
+
+The :keyword:`Dim` keyword allows you to define variables::
+
+	Dim x = 5
+
+... variables may optionally include type annotations::
+
+	Dim x = 5 As Int32
+
+... by convention variables have ``camelCaseNames``.
+
+
+.. index::
+	keyword: Do While
+	keyword: Exit Do
+	keyword: Loop
+
+.. _Do While:
+.. _Exit Do:
+.. _Loop:
+
+Do While
+--------
+.. note::
+
+	:keyword:`Do While` loops supersede the older :keyword:`While`-:keyword:`WEnd` style loops and should be used in preference to them.
+
+While loops are defined using the :keyword:`Do While` keywords::
+
+	Do While iterator.MoveNext()
+	  ' Do stuff
+	Loop
+
+
+:keyword:`Do While` loops can exit early using the :keyword:`Exit Do` keyword::
+
+	Do While iterator.MoveNext()
+	  ' Do stuff
+
+	  If <condition> Then
+	    Exit Do
+	  End If
+	Loop
+
+.. index::
+	keyword: For
+	keyword: Next
+	keyword: End For
+	keyword: Exit For
+	keyword: Step
+	keyword: To
+
+.. _For:
+.. _Next:
+.. _End For:
+.. _Exit For:
+.. _Step:
+.. _To:
+
+For
+---
+
+.. note::
+	Where they are applicable, :keyword:`For Each` loops are preferable to :keyword:`For` loops.
+
+C-style for loops are defined using the :keyword:`For` keyword with the bounds defined using the ``<lower> To <upper>`` syntax. The bounds are inclusive so:: 
+
+	For Dim i = 0 To 5
+	  %><%= i %> <%
+	Next
+
+... produces:: 
+
+	0 1 2 3 4 5
+
+The step size is 1 by default, but can be adjusted using the optional :keyword:`Step` keyword::
+
+	For Dim i = 0 To 5 Step 2
+	  %><%= i %> <%
+	Next
+
+... which produces::
+	
+	0 2 4
+
+For loops can be exited early using the :keyword:`Exit For` statement::
+
+	For Dim i = 0 To 5 Step 2
+		If i > 2 Then
+			Exit For
+		End If
+
+		%><%= i %><%
+	Next
+
+... which produces::
+
+	0 2
+
+... however, there is not equivalent to a `continue` statement.
+
+
+.. index::
+	keyword: For Each
+	keyword: Next
+	keyword: End For
+
+.. _For Each:
+
+For Each
+--------
+Python-style for loops are defined using the :keyword:`For Each` keywords and lets you iterate over the elements of a collection::
+
+	For Each Dim i In Array(0, 1, 2, 3, 4)
+	  %><%= i %> <%
+	Next
+
+... produces:
+
+	0 1 2 3 4 5
+
+Like the :keyword:`For` loop, you can exit early using the :keyword:`Exit For` statement.
+
+.. index::
+	keyword: If
+	keyword: Else
+	keyword: ElseIf
+
+.. _If:
+.. _Else:
+.. _ElseIf:
+
+If
+--
+:keyword:`If` statements allow you to conditionally execute code. Like so::
+
+	If x < 0 Then
+	  %>Negative<%
+	ElseIf x = 0 Then
+	  %>Zero<%
+	Else
+	  %>Positive<%
+	End If
+
+The :keyword:`Else` clause is optional and you may have any number, including zero, :keyword:`ElseIf` clauses.
+
+
+.. index::
+	keyword: On Error Resume Next
+	keyword: On Error Goto 0
+
+.. _On Error Resume Next:
+.. _On Error Goto 0:
+
+On Error Resume Next
+--------------------
+.. warning::
+
+	This statement is deprecated. Use :keyword:`Try`-:keyword:`Catch` blocks instead.
+
+Inherited from VBScript, :keyword:`On Error Resume Next` blocks translate exceptions into error codes which can be handled using :keyword:`If` statements that check ``Err.Number``::
+
+	On Error Resume Next
+	  ' Do stuff
+	  If Err.Number <> 0 Then
+	    ' Handle error
+	  End If
+	On Error Goto 0
+
+:keyword:`On Error Resume Next` create blocks where when an exception occurs, ``Err.Number`` is set to a non-zero value and execution resumes on the following line. :keyword:`On Error Goto 0` ends the corresponding :keyword:`On Error Resume Next` block.
+
+
+.. index::
+	keyword: On Exit
+
+.. _On Exit:
+
+On Exit
+-------
+.. warning::
+
+	This statement is deprecated. Use :keyword:`Try`-:keyword:`Finally` blocks instead.
+
+The :keyword:`On Exit` statement defers execution of the following statement until execution leaves the enclosing scope, similar to a :keyword:`Finally` block::
+
+	On Exit CloseRS rs
+
+
+.. index::
+	keyword: Select Case
+	keyword: Case
+	keyword: Exit Select
+	keyword: Case Else
+	keyword: End Select
+
+.. _Select Case:
+.. _Case:
+.. _Exit Select:
+.. _Case Else:
+
+Select Case
+-----------
+.. note::
+
+	Since Wasabi's :keyword:`Select Case` construct doesn't allow fall through and doesn't compile to anything special, you're generally better off using :keyword:`If`-:keyword:`ElseIf` statements which are both more flexible and more common.
+
+Wasabi supports `switch statements <http://en.wikipedia.org/wiki/Switch_statement>`_ using the :keyword:`Select Case` statement with the default case being specified using the :keyword:`Case Else` construct. For example::
+
+	Select Case char
+	  Case "'"
+	    Return "&apos;"
+	  Case """"
+	    Return "&quot;"
+	  Case "<"
+	    Return "&lt;"
+	  Case ">"
+	    Return "&gt;"
+	  Case "&"
+	    Return "&amp;"
+	  Case Else
+	    Return char
+	End Select
+
+Even though fall through is not permitted and exit is assumed at the end of each case, early exit from an :keyword:`Case` can be accomplished using the :keyword:`Exit Select` statement::
+
+	Select Case adjective
+	  Case "happy"
+	    If predicate Then
+	      Exit Select
+	    End If
+	
+	    state = "happy"
+	  Case Else
+	    state = "ambivalent"
+	End Select
+
+Furthermore, each :keyword:`Case` can specify multiple matching expressions::
+
+	Case "hello", "salutations", "etc."
+
+
+.. index::
+	keyword: Set
+
+.. _Set:
+
+Set
+---
+.. warning::
+
+	This statement is deprecated and unnecessary. Don't use it.
+
+Inherited from VBScript, the :keyword:`Set` keyword was used to distinguish assignment from equality comparisons which both use the :token:`=` operator::
+
+	Dim x
+	Set x = 1
+
+Wasabi removes the need to distinguish between assignment and equality comparison as such the :keyword:`Set` statement should not be used.
+
+.. index::
+	keyword: Throw
+
+.. _Throw:
+
+Throw
+-----
+Exceptions can be raised using the :keyword:`Throw` statement::
+
+	Throw New [System.Exception]("An error occurred")
+
+When an exception is thrown, the runtime will unwind the stack until an appropriate :keyword:`Try`-:keyword:`Catch` block is found and resume execution in the :keyword:`Catch` block.
+
+
+.. index::
+	keyword: Try
+	keyword: Catch
+	keyword: Finally
+
+.. _Try:
+.. _Catch:
+.. _Finally:
+
+Try
+---
+:keyword:`Try` statements are used handling exceptions thrown using the :keyword:`Throw` statement::
+
+	Try
+	  ' Do stuff
+	Catch arg As [System.ArgumentException]
+	  ' Handle argument exception
+	Catch io As [System.IOException]
+	  ' Exceptions can be rethrown maintaining their stack
+	  Throw
+	Catch ex As [System.Exception]
+	  ' Handle exception
+	Finally
+	  ' Clean up
+	End Try
+
+The :keyword:`Finally` clause is optional and you may have any number of :keyword:`Catch` clauses for handling different types of exceptions.
+
+
+.. index::
+	keyword: While
+	keyword: WEnd
+
+.. _While:
+.. _WEnd:
+
+While
+-----
+.. warning::
+	
+	This statement is deprecated. Use :keyword:`Do While` loops instead.
+
+Old style while loops inherited from VBScript::
+
+	While itertator.MoveNext()
+	  ' Do Stuff
+	WEnd
+
+Use :keyword:`Do While` loops instead.
+
+.. index::
+	keyword: With
+	keyword: End With
+
+.. _With:
+
+With
+----
+The :keyword:`With` statement allows abbreviated access to an object's properties::
+
+	With "Hello world!"
+	  %>
+	    <%= .Length %>
+	    <br>
+	    <%= .ToString() %>
+	  %>
+	End With
+
+... produces::
+
+	12
+	Hello world!
+
+Since member access are unambiguously identified by the leading :token:`.`, Wasabi's with statement doesn't suffer from the same ambiguities as JavaScript's `with` statement with respect to assignment.
+
+The :keyword:`With` statement doesn't provide any means to access the object so, if you need access you can simply assign the object to a local variable::
+
+	Dim obj = <expression>
+	With obj
+	  %><% obj.ToString() %><%
+	  objs.Add(obj)
+	End With

@@ -1,0 +1,179 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Utilities &mdash; Wasabi: The ??? Parts v0.1 documentation</title>
+    <link rel="stylesheet" href="_static/wasabi.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Wasabi: The ??? Parts v0.1 documentation" href="index.html" />
+    <link rel="next" title="Glossary" href="glossary.html" />
+    <link rel="prev" title="Classes" href="classes.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="glossary.html" title="Glossary"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="classes.html" title="Classes"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Wasabi: The ??? Parts v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="utilities">
+<h1>Utilities<a class="headerlink" href="#utilities" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="fogcreek-core-arrays">
+<span id="index-0"></span><span id="id1"></span><h2>FogCreek.Core.Arrays<a class="headerlink" href="#fogcreek-core-arrays" title="Permalink to this headline">¶</a></h2>
+<p>Class that provides static utility methods for manipulating arrays in Wasabi. Since Wasabi lacks support for generics, these methods are implmented as code generators that produce type specific methods.</p>
+<div class="section" id="append">
+<span id="index-1"></span><h3>Append<a class="headerlink" href="#append" title="Permalink to this headline">¶</a></h3>
+<p>Concatenates two arrays together producing a new array:</p>
+<div class="highlight-python"><pre>Dim zs = Arrays.AppendInt32(xs, ys)</pre>
+</div>
+</div>
+<div class="section" id="arrayfromicollection">
+<span id="index-2"></span><h3>ArrayFromICollection<a class="headerlink" href="#arrayfromicollection" title="Permalink to this headline">¶</a></h3>
+<p>Coverts an <a class="reference external" href="http://msdn.microsoft.com/en-us/library/system.collections.icollection.aspx">ICollection</a> into a strongly typed array. Useful for allowing you to build up a list of objects using a .NET collection and then turn it into an array after you&#8217;re done with it:</p>
+<div class="highlight-python"><pre>Dim result = Arrays.ArrayFromICollectionInt32(list)</pre>
+</div>
+</div>
+<div class="section" id="filter">
+<span id="index-3"></span><h3>Filter<a class="headerlink" href="#filter" title="Permalink to this headline">¶</a></h3>
+<p>Produces a new array containing only the values that match the supplied predicate:</p>
+<div class="highlight-python"><pre>Dim ys = Arrays.FilterInt32(xs, Lambda (x) x &gt; 0)</pre>
+</div>
+</div>
+<div class="section" id="map">
+<span id="index-4"></span><h3>Map<a class="headerlink" href="#map" title="Permalink to this headline">¶</a></h3>
+<p>Produces a new array containing the result of passing eacy element through a transformation function:</p>
+<div class="highlight-python"><pre>Dim ys = Arrays.MapInt32ToInt32(xs, Lambda (x) x + 1)</pre>
+</div>
+</div>
+</div>
+<div class="section" id="fogcreek-core-html">
+<span id="index-5"></span><span id="id2"></span><h2>FogCreek.Core.Html<a class="headerlink" href="#fogcreek-core-html" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="encode">
+<span id="index-6"></span><h3>Encode<a class="headerlink" href="#encode" title="Permalink to this headline">¶</a></h3>
+<p>HTML encodes the string that&#8217;s passed in making it safe fore inclusion as a text node in an HTML document:</p>
+<div class="highlight-python"><pre>&lt;p class="comment"&gt;&lt;%= Html.Encode(comment.body) %&gt;&lt;/p&gt;</pre>
+</div>
+</div>
+<div class="section" id="attributeencode">
+<span id="index-7"></span><h3>AttributeEncode<a class="headerlink" href="#attributeencode" title="Permalink to this headline">¶</a></h3>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>Html.AttributeEncode() does not encode <tt class="docutils literal"><span class="pre">'</span></tt>, or <tt class="docutils literal"><span class="pre">&gt;</span></tt> this means two things:</p>
+<ol class="last arabic simple">
+<li>Attributes in HTML must be quoted using double quotes (<tt class="docutils literal"><span class="pre">&quot;</span></tt>), otherwise an encoded string could prematurely terminate the attribute resulting in an XSS vulnerability.</li>
+<li>Html.AttributeEncode() should not be used outside of HTML attributes, because doing so can allow illegal characters through (<tt class="docutils literal"><span class="pre">&gt;</span></tt>) which can result in an invalid HTML document (though probably not an XSS vulnerability).</li>
+</ol>
+</div>
+<p>Replaces <tt class="docutils literal"><span class="pre">&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&lt;</span></tt>, and <tt class="docutils literal"><span class="pre">&amp;</span></tt> with their repective HTML entities making an arbitrary string suitable for use inside an HTML attribute:</p>
+<div class="highlight-python"><pre>&lt;p data-user-name="&lt;%= Html.AttributeEncode(user.name)"&gt;...&lt;/p&gt;</pre>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Utilities</a><ul>
+<li><a class="reference internal" href="#fogcreek-core-arrays">FogCreek.Core.Arrays</a><ul>
+<li><a class="reference internal" href="#append">Append</a></li>
+<li><a class="reference internal" href="#arrayfromicollection">ArrayFromICollection</a></li>
+<li><a class="reference internal" href="#filter">Filter</a></li>
+<li><a class="reference internal" href="#map">Map</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#fogcreek-core-html">FogCreek.Core.Html</a><ul>
+<li><a class="reference internal" href="#encode">Encode</a></li>
+<li><a class="reference internal" href="#attributeencode">AttributeEncode</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="classes.html"
+                        title="previous chapter">Classes</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="glossary.html"
+                        title="next chapter">Glossary</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/utilities.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="glossary.html" title="Glossary"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="classes.html" title="Classes"
+             >previous</a> |</li>
+        <li><a href="index.html">Wasabi: The ??? Parts v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Fog Creek Software.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

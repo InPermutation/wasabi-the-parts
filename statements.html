@@ -1,0 +1,400 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Statements &mdash; Wasabi: The ??? Parts v0.1 documentation</title>
+    <link rel="stylesheet" href="_static/wasabi.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Wasabi: The ??? Parts v0.1 documentation" href="index.html" />
+    <link rel="next" title="Functions &amp; Subroutines" href="functions.html" />
+    <link rel="prev" title="Expressions" href="expressions.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="functions.html" title="Functions &amp; Subroutines"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="expressions.html" title="Expressions"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Wasabi: The ??? Parts v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="statements">
+<h1>Statements<a class="headerlink" href="#statements" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="comments">
+<span id="index-0"></span><h2>Comments<a class="headerlink" href="#comments" title="Permalink to this headline">¶</a></h2>
+<p>Comments are defined using single quotes <tt class="xref std std-token docutils literal"><span class="pre">'</span></tt>. The comment starts at the single quote and continues until the end of the line (Wasabi doesn&#8217;t have block comments):</p>
+<div class="highlight-python"><pre>' This is a comment.
+' It doesn't do anything</pre>
+</div>
+<p>... remember that good comments explain the rational for doing something rather than how the code works. If you find yourself writing comments explaining how your code works it&#8217;s probably too complicated and/or magical and will be difficult for you (or me) to debug later. You should reconsider your variable and method names and your algorithmic approach so that it&#8217;s more obvious to lesser minds (like mine) what&#8217;s going on and. Always keep in mind this sage advice from Kernighan:</p>
+<blockquote>
+<div>&#8220;Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.&#8221; - Brian W. Kernighan</div></blockquote>
+</div>
+<div class="section" id="const">
+<span id="index-1"></span><span id="id1"></span><h2>Const<a class="headerlink" href="#const" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="#const"><tt class="xref std std-keyword docutils literal"><span class="pre">Const</span></tt></a> keyword allows you to define compile time constants which are restricted to value types and Strings:</p>
+<div class="highlight-python"><pre>Const COLWIDTH_LONG_TEXT = 350</pre>
+</div>
+<p>... by convention constants have <tt class="docutils literal"><span class="pre">UNDERSCORE_SEPARATED_UPPER_CASE_NAMES</span></tt>.</p>
+</div>
+<div class="section" id="doc-comments">
+<span id="index-2"></span><h2>Doc Comments<a class="headerlink" href="#doc-comments" title="Permalink to this headline">¶</a></h2>
+<p>Doc comments are defined using triple single quotes <tt class="xref std std-token docutils literal"><span class="pre">'''</span></tt>. They can be extracted by tools and are very useful for documenting public APIs. Unlike normal comments, and abundance of doc comments is not an indication that your code is too complicated. In fact, all public API should have accompanying doc comments that explain how the API is used</p>
+<div class="highlight-python"><pre>''' This is an abbreviated doc comment
+Public Method()
+
+''' &lt;summary&gt;This is a long form doc comment&lt;/summar&gt;
+''' &lt;param name="param1"&gt;A description parameter.&lt;/param&gt;
+''' &lt;returns&gt;A description of the return value&lt;/returns&gt;
+Public OtherMethod(param1)</pre>
+</div>
+</div>
+<div class="section" id="dim">
+<span id="as"></span><span id="index-3"></span><span id="id2"></span><h2>Dim<a class="headerlink" href="#dim" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Identifiers are really important, so important that code complete has an entire chapter on them. While you should totally read it, the short version is that identifiers should:</p>
+<ul class="last simple">
+<li>Be descriptive.</li>
+<li>Not overly long.</li>
+<li>Avoid unnecessary abbreviation.</li>
+</ul>
+</div>
+<p>The <a class="reference internal" href="#dim"><tt class="xref std std-keyword docutils literal"><span class="pre">Dim</span></tt></a> keyword allows you to define variables:</p>
+<div class="highlight-python"><pre>Dim x = 5</pre>
+</div>
+<p>... variables may optionally include type annotations:</p>
+<div class="highlight-python"><pre>Dim x = 5 As Int32</pre>
+</div>
+<p>... by convention variables have <tt class="docutils literal"><span class="pre">camelCaseNames</span></tt>.</p>
+</div>
+<div class="section" id="loop">
+<span id="exit-do"></span><span id="do-while"></span><span id="index-4"></span><span id="id3"></span><h2>Do While<a class="headerlink" href="#loop" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><a class="reference internal" href="#do-while"><tt class="xref std std-keyword docutils literal"><span class="pre">Do</span> <span class="pre">While</span></tt></a> loops supersede the older <a class="reference internal" href="#while"><tt class="xref std std-keyword docutils literal"><span class="pre">While</span></tt></a>-<a class="reference internal" href="#wend"><tt class="xref std std-keyword docutils literal"><span class="pre">WEnd</span></tt></a> style loops and should be used in preference to them.</p>
+</div>
+<p>While loops are defined using the <a class="reference internal" href="#do-while"><tt class="xref std std-keyword docutils literal"><span class="pre">Do</span> <span class="pre">While</span></tt></a> keywords:</p>
+<div class="highlight-python"><pre>Do While iterator.MoveNext()
+  ' Do stuff
+Loop</pre>
+</div>
+<p><a class="reference internal" href="#do-while"><tt class="xref std std-keyword docutils literal"><span class="pre">Do</span> <span class="pre">While</span></tt></a> loops can exit early using the <a class="reference internal" href="#exit-do"><tt class="xref std std-keyword docutils literal"><span class="pre">Exit</span> <span class="pre">Do</span></tt></a> keyword:</p>
+<div class="highlight-python"><pre>Do While iterator.MoveNext()
+  ' Do stuff
+
+  If &lt;condition&gt; Then
+    Exit Do
+  End If
+Loop</pre>
+</div>
+</div>
+<div class="section" id="to">
+<span id="step"></span><span id="exit-for"></span><span id="end-for"></span><span id="next"></span><span id="for"></span><span id="index-5"></span><span id="id4"></span><h2>For<a class="headerlink" href="#to" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Where they are applicable, <a class="reference internal" href="#for-each"><tt class="xref std std-keyword docutils literal"><span class="pre">For</span> <span class="pre">Each</span></tt></a> loops are preferable to <a class="reference internal" href="#for"><tt class="xref std std-keyword docutils literal"><span class="pre">For</span></tt></a> loops.</p>
+</div>
+<p>C-style for loops are defined using the <a class="reference internal" href="#for"><tt class="xref std std-keyword docutils literal"><span class="pre">For</span></tt></a> keyword with the bounds defined using the <tt class="docutils literal"><span class="pre">&lt;lower&gt;</span> <span class="pre">To</span> <span class="pre">&lt;upper&gt;</span></tt> syntax. The bounds are inclusive so:</p>
+<div class="highlight-python"><pre>For Dim i = 0 To 5
+  %&gt;&lt;%= i %&gt; &lt;%
+Next</pre>
+</div>
+<p>... produces:</p>
+<div class="highlight-python"><pre>0 1 2 3 4 5</pre>
+</div>
+<p>The step size is 1 by default, but can be adjusted using the optional <a class="reference internal" href="#step"><tt class="xref std std-keyword docutils literal"><span class="pre">Step</span></tt></a> keyword:</p>
+<div class="highlight-python"><pre>For Dim i = 0 To 5 Step 2
+  %&gt;&lt;%= i %&gt; &lt;%
+Next</pre>
+</div>
+<p>... which produces:</p>
+<div class="highlight-python"><pre>0 2 4</pre>
+</div>
+<p>For loops can be exited early using the <a class="reference internal" href="#exit-for"><tt class="xref std std-keyword docutils literal"><span class="pre">Exit</span> <span class="pre">For</span></tt></a> statement:</p>
+<div class="highlight-python"><pre>For Dim i = 0 To 5 Step 2
+        If i &gt; 2 Then
+                Exit For
+        End If
+
+        %&gt;&lt;%= i %&gt;&lt;%
+Next</pre>
+</div>
+<p>... which produces:</p>
+<div class="highlight-python"><pre>0 2</pre>
+</div>
+<p>... however, there is not equivalent to a <cite>continue</cite> statement.</p>
+</div>
+<div class="section" id="for-each">
+<span id="index-6"></span><span id="id5"></span><h2>For Each<a class="headerlink" href="#for-each" title="Permalink to this headline">¶</a></h2>
+<p>Python-style for loops are defined using the <a class="reference internal" href="#for-each"><tt class="xref std std-keyword docutils literal"><span class="pre">For</span> <span class="pre">Each</span></tt></a> keywords and lets you iterate over the elements of a collection:</p>
+<div class="highlight-python"><pre>For Each Dim i In Array(0, 1, 2, 3, 4)
+  %&gt;&lt;%= i %&gt; &lt;%
+Next</pre>
+</div>
+<p>... produces:</p>
+<blockquote>
+<div>0 1 2 3 4 5</div></blockquote>
+<p>Like the <a class="reference internal" href="#for"><tt class="xref std std-keyword docutils literal"><span class="pre">For</span></tt></a> loop, you can exit early using the <a class="reference internal" href="#exit-for"><tt class="xref std std-keyword docutils literal"><span class="pre">Exit</span> <span class="pre">For</span></tt></a> statement.</p>
+</div>
+<div class="section" id="elseif">
+<span id="else"></span><span id="if"></span><span id="index-7"></span><span id="id6"></span><h2>If<a class="headerlink" href="#elseif" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference internal" href="#if"><tt class="xref std std-keyword docutils literal"><span class="pre">If</span></tt></a> statements allow you to conditionally execute code. Like so:</p>
+<div class="highlight-python"><pre>If x &lt; 0 Then
+  %&gt;Negative&lt;%
+ElseIf x = 0 Then
+  %&gt;Zero&lt;%
+Else
+  %&gt;Positive&lt;%
+End If</pre>
+</div>
+<p>The <a class="reference internal" href="#else"><tt class="xref std std-keyword docutils literal"><span class="pre">Else</span></tt></a> clause is optional and you may have any number, including zero, <a class="reference internal" href="#elseif"><tt class="xref std std-keyword docutils literal"><span class="pre">ElseIf</span></tt></a> clauses.</p>
+</div>
+<div class="section" id="on-error-goto-0">
+<span id="on-error-resume-next"></span><span id="index-8"></span><span id="id7"></span><h2>On Error Resume Next<a class="headerlink" href="#on-error-goto-0" title="Permalink to this headline">¶</a></h2>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This statement is deprecated. Use <a class="reference internal" href="#try"><tt class="xref std std-keyword docutils literal"><span class="pre">Try</span></tt></a>-<a class="reference internal" href="#catch"><tt class="xref std std-keyword docutils literal"><span class="pre">Catch</span></tt></a> blocks instead.</p>
+</div>
+<p>Inherited from VBScript, <a class="reference internal" href="#on-error-resume-next"><tt class="xref std std-keyword docutils literal"><span class="pre">On</span> <span class="pre">Error</span> <span class="pre">Resume</span> <span class="pre">Next</span></tt></a> blocks translate exceptions into error codes which can be handled using <a class="reference internal" href="#if"><tt class="xref std std-keyword docutils literal"><span class="pre">If</span></tt></a> statements that check <tt class="docutils literal"><span class="pre">Err.Number</span></tt>:</p>
+<div class="highlight-python"><pre>On Error Resume Next
+  ' Do stuff
+  If Err.Number &lt;&gt; 0 Then
+    ' Handle error
+  End If
+On Error Goto 0</pre>
+</div>
+<p><a class="reference internal" href="#on-error-resume-next"><tt class="xref std std-keyword docutils literal"><span class="pre">On</span> <span class="pre">Error</span> <span class="pre">Resume</span> <span class="pre">Next</span></tt></a> create blocks where when an exception occurs, <tt class="docutils literal"><span class="pre">Err.Number</span></tt> is set to a non-zero value and execution resumes on the following line. <a class="reference internal" href="#on-error-goto-0"><tt class="xref std std-keyword docutils literal"><span class="pre">On</span> <span class="pre">Error</span> <span class="pre">Goto</span> <span class="pre">0</span></tt></a> ends the corresponding <a class="reference internal" href="#on-error-resume-next"><tt class="xref std std-keyword docutils literal"><span class="pre">On</span> <span class="pre">Error</span> <span class="pre">Resume</span> <span class="pre">Next</span></tt></a> block.</p>
+</div>
+<div class="section" id="on-exit">
+<span id="index-9"></span><span id="id8"></span><h2>On Exit<a class="headerlink" href="#on-exit" title="Permalink to this headline">¶</a></h2>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This statement is deprecated. Use <a class="reference internal" href="#try"><tt class="xref std std-keyword docutils literal"><span class="pre">Try</span></tt></a>-<a class="reference internal" href="#finally"><tt class="xref std std-keyword docutils literal"><span class="pre">Finally</span></tt></a> blocks instead.</p>
+</div>
+<p>The <a class="reference internal" href="#on-exit"><tt class="xref std std-keyword docutils literal"><span class="pre">On</span> <span class="pre">Exit</span></tt></a> statement defers execution of the following statement until execution leaves the enclosing scope, similar to a <a class="reference internal" href="#finally"><tt class="xref std std-keyword docutils literal"><span class="pre">Finally</span></tt></a> block:</p>
+<div class="highlight-python"><pre>On Exit CloseRS rs</pre>
+</div>
+</div>
+<div class="section" id="case-else">
+<span id="exit-select"></span><span id="case"></span><span id="select-case"></span><span id="index-10"></span><span id="id9"></span><h2>Select Case<a class="headerlink" href="#case-else" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Since Wasabi&#8217;s <a class="reference internal" href="#select-case"><tt class="xref std std-keyword docutils literal"><span class="pre">Select</span> <span class="pre">Case</span></tt></a> construct doesn&#8217;t allow fall through and doesn&#8217;t compile to anything special, you&#8217;re generally better off using <a class="reference internal" href="#if"><tt class="xref std std-keyword docutils literal"><span class="pre">If</span></tt></a>-<a class="reference internal" href="#elseif"><tt class="xref std std-keyword docutils literal"><span class="pre">ElseIf</span></tt></a> statements which are both more flexible and more common.</p>
+</div>
+<p>Wasabi supports <a class="reference external" href="http://en.wikipedia.org/wiki/Switch_statement">switch statements</a> using the <a class="reference internal" href="#select-case"><tt class="xref std std-keyword docutils literal"><span class="pre">Select</span> <span class="pre">Case</span></tt></a> statement with the default case being specified using the <a class="reference internal" href="#case-else"><tt class="xref std std-keyword docutils literal"><span class="pre">Case</span> <span class="pre">Else</span></tt></a> construct. For example:</p>
+<div class="highlight-python"><pre>Select Case char
+  Case "'"
+    Return "&amp;apos;"
+  Case """"
+    Return "&amp;quot;"
+  Case "&lt;"
+    Return "&amp;lt;"
+  Case "&gt;"
+    Return "&amp;gt;"
+  Case "&amp;"
+    Return "&amp;amp;"
+  Case Else
+    Return char
+End Select</pre>
+</div>
+<p>Even though fall through is not permitted and exit is assumed at the end of each case, early exit from an <a class="reference internal" href="#case"><tt class="xref std std-keyword docutils literal"><span class="pre">Case</span></tt></a> can be accomplished using the <a class="reference internal" href="#exit-select"><tt class="xref std std-keyword docutils literal"><span class="pre">Exit</span> <span class="pre">Select</span></tt></a> statement:</p>
+<div class="highlight-python"><pre>Select Case adjective
+  Case "happy"
+    If predicate Then
+      Exit Select
+    End If
+
+    state = "happy"
+  Case Else
+    state = "ambivalent"
+End Select</pre>
+</div>
+<p>Furthermore, each <a class="reference internal" href="#case"><tt class="xref std std-keyword docutils literal"><span class="pre">Case</span></tt></a> can specify multiple matching expressions:</p>
+<div class="highlight-python"><pre>Case "hello", "salutations", "etc."</pre>
+</div>
+</div>
+<div class="section" id="set">
+<span id="index-11"></span><span id="id10"></span><h2>Set<a class="headerlink" href="#set" title="Permalink to this headline">¶</a></h2>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This statement is deprecated and unnecessary. Don&#8217;t use it.</p>
+</div>
+<p>Inherited from VBScript, the <a class="reference internal" href="#set"><tt class="xref std std-keyword docutils literal"><span class="pre">Set</span></tt></a> keyword was used to distinguish assignment from equality comparisons which both use the <tt class="xref std std-token docutils literal"><span class="pre">=</span></tt> operator:</p>
+<div class="highlight-python"><pre>Dim x
+Set x = 1</pre>
+</div>
+<p>Wasabi removes the need to distinguish between assignment and equality comparison as such the <a class="reference internal" href="#set"><tt class="xref std std-keyword docutils literal"><span class="pre">Set</span></tt></a> statement should not be used.</p>
+</div>
+<div class="section" id="throw">
+<span id="index-12"></span><span id="id11"></span><h2>Throw<a class="headerlink" href="#throw" title="Permalink to this headline">¶</a></h2>
+<p>Exceptions can be raised using the <a class="reference internal" href="#throw"><tt class="xref std std-keyword docutils literal"><span class="pre">Throw</span></tt></a> statement:</p>
+<div class="highlight-python"><pre>Throw New [System.Exception]("An error occurred")</pre>
+</div>
+<p>When an exception is thrown, the runtime will unwind the stack until an appropriate <a class="reference internal" href="#try"><tt class="xref std std-keyword docutils literal"><span class="pre">Try</span></tt></a>-<a class="reference internal" href="#catch"><tt class="xref std std-keyword docutils literal"><span class="pre">Catch</span></tt></a> block is found and resume execution in the <a class="reference internal" href="#catch"><tt class="xref std std-keyword docutils literal"><span class="pre">Catch</span></tt></a> block.</p>
+</div>
+<div class="section" id="finally">
+<span id="catch"></span><span id="try"></span><span id="index-13"></span><span id="id12"></span><h2>Try<a class="headerlink" href="#finally" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference internal" href="#try"><tt class="xref std std-keyword docutils literal"><span class="pre">Try</span></tt></a> statements are used handling exceptions thrown using the <a class="reference internal" href="#throw"><tt class="xref std std-keyword docutils literal"><span class="pre">Throw</span></tt></a> statement:</p>
+<div class="highlight-python"><pre>Try
+  ' Do stuff
+Catch arg As [System.ArgumentException]
+  ' Handle argument exception
+Catch io As [System.IOException]
+  ' Exceptions can be rethrown maintaining their stack
+  Throw
+Catch ex As [System.Exception]
+  ' Handle exception
+Finally
+  ' Clean up
+End Try</pre>
+</div>
+<p>The <a class="reference internal" href="#finally"><tt class="xref std std-keyword docutils literal"><span class="pre">Finally</span></tt></a> clause is optional and you may have any number of <a class="reference internal" href="#catch"><tt class="xref std std-keyword docutils literal"><span class="pre">Catch</span></tt></a> clauses for handling different types of exceptions.</p>
+</div>
+<div class="section" id="wend">
+<span id="while"></span><span id="index-14"></span><span id="id13"></span><h2>While<a class="headerlink" href="#wend" title="Permalink to this headline">¶</a></h2>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This statement is deprecated. Use <a class="reference internal" href="#do-while"><tt class="xref std std-keyword docutils literal"><span class="pre">Do</span> <span class="pre">While</span></tt></a> loops instead.</p>
+</div>
+<p>Old style while loops inherited from VBScript:</p>
+<div class="highlight-python"><pre>While itertator.MoveNext()
+  ' Do Stuff
+WEnd</pre>
+</div>
+<p>Use <a class="reference internal" href="#do-while"><tt class="xref std std-keyword docutils literal"><span class="pre">Do</span> <span class="pre">While</span></tt></a> loops instead.</p>
+</div>
+<div class="section" id="with">
+<span id="index-15"></span><span id="id14"></span><h2>With<a class="headerlink" href="#with" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="#with"><tt class="xref std std-keyword docutils literal"><span class="pre">With</span></tt></a> statement allows abbreviated access to an object&#8217;s properties:</p>
+<div class="highlight-python"><pre>With "Hello world!"
+  %&gt;
+    &lt;%= .Length %&gt;
+    &lt;br&gt;
+    &lt;%= .ToString() %&gt;
+  %&gt;
+End With</pre>
+</div>
+<p>... produces:</p>
+<div class="highlight-python"><pre>12
+Hello world!</pre>
+</div>
+<p>Since member access are unambiguously identified by the leading <tt class="xref std std-token docutils literal"><span class="pre">.</span></tt>, Wasabi&#8217;s with statement doesn&#8217;t suffer from the same ambiguities as JavaScript&#8217;s <cite>with</cite> statement with respect to assignment.</p>
+<p>The <a class="reference internal" href="#with"><tt class="xref std std-keyword docutils literal"><span class="pre">With</span></tt></a> statement doesn&#8217;t provide any means to access the object so, if you need access you can simply assign the object to a local variable:</p>
+<div class="highlight-python"><pre>Dim obj = &lt;expression&gt;
+With obj
+  %&gt;&lt;% obj.ToString() %&gt;&lt;%
+  objs.Add(obj)
+End With</pre>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Statements</a><ul>
+<li><a class="reference internal" href="#comments">Comments</a></li>
+<li><a class="reference internal" href="#const">Const</a></li>
+<li><a class="reference internal" href="#doc-comments">Doc Comments</a></li>
+<li><a class="reference internal" href="#dim">Dim</a></li>
+<li><a class="reference internal" href="#loop">Do While</a></li>
+<li><a class="reference internal" href="#to">For</a></li>
+<li><a class="reference internal" href="#for-each">For Each</a></li>
+<li><a class="reference internal" href="#elseif">If</a></li>
+<li><a class="reference internal" href="#on-error-goto-0">On Error Resume Next</a></li>
+<li><a class="reference internal" href="#on-exit">On Exit</a></li>
+<li><a class="reference internal" href="#case-else">Select Case</a></li>
+<li><a class="reference internal" href="#set">Set</a></li>
+<li><a class="reference internal" href="#throw">Throw</a></li>
+<li><a class="reference internal" href="#finally">Try</a></li>
+<li><a class="reference internal" href="#wend">While</a></li>
+<li><a class="reference internal" href="#with">With</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="expressions.html"
+                        title="previous chapter">Expressions</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="functions.html"
+                        title="next chapter">Functions &amp; Subroutines</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/statements.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="functions.html" title="Functions &amp; Subroutines"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="expressions.html" title="Expressions"
+             >previous</a> |</li>
+        <li><a href="index.html">Wasabi: The ??? Parts v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Fog Creek Software.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,231 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Built-In Functions &mdash; Wasabi: The ??? Parts v0.1 documentation</title>
+    <link rel="stylesheet" href="_static/wasabi.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Wasabi: The ??? Parts v0.1 documentation" href="index.html" />
+    <link rel="next" title="Utilities" href="utilities.html" />
+    <link rel="prev" title="Classes" href="classes.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="utilities.html" title="Utilities"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="classes.html" title="Classes"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Wasabi: The ??? Parts v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="built-in-functions">
+<h1>Built-In Functions<a class="headerlink" href="#built-in-functions" title="Permalink to this headline">¶</a></h1>
+<p>Wasabi provides a number of built-in functions for string manipulation and other utilitiles. In general, you should prefer to use the appropriate .NET methods since they are better documented, more discoverable and in some cases, strictly better.</p>
+<div class="section" id="join-array-delimiter">
+<span id="index-0"></span><h2>Join(array, delimiter)<a class="headerlink" href="#join-array-delimiter" title="Permalink to this headline">¶</a></h2>
+<p>Joins the array with the supplied delimiter:</p>
+<div class="highlight-python"><pre>Dim values = Array("one", "two", "three")
+Dim csv = Join(value, ", ")</pre>
+</div>
+</div>
+<div class="section" id="trim-string">
+<span id="index-1"></span><h2>Trim(string)<a class="headerlink" href="#trim-string" title="Permalink to this headline">¶</a></h2>
+<p>Returns a copy of the string with leading and trailing whitespace removed:</p>
+<div class="highlight-python"><pre>Dim hello = "     hello    "</pre>
+</div>
+</div>
+<div class="section" id="charat-string-i">
+<span id="index-2"></span><h2>CharAt(string, i)<a class="headerlink" href="#charat-string-i" title="Permalink to this headline">¶</a></h2>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">You should use the <tt class="docutils literal"><span class="pre">System.String</span></tt>&#8216;s item getter instead.</p>
+</div>
+<p>Gets the character at the position <tt class="docutils literal"><span class="pre">i</span></tt>:</p>
+<div class="highlight-python"><pre>Dim w = "Hello world!".CharAt(6)</pre>
+</div>
+</div>
+<div class="section" id="len-string">
+<span id="index-3"></span><h2>Len(string)<a class="headerlink" href="#len-string" title="Permalink to this headline">¶</a></h2>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">You should use <tt class="docutils literal"><span class="pre">System.String</span></tt>&#8216;s <tt class="docutils literal"><span class="pre">Length</span></tt> property instead.</p>
+</div>
+<p>Returns the length of a string, or 0 for <tt class="docutils literal"><span class="pre">Nothing</span></tt>:</p>
+<div class="highlight-python"><pre>Dim length = Len("Hello World!")</pre>
+</div>
+</div>
+<div class="section" id="mid-string-start-optional-count">
+<span id="index-4"></span><h2>Mid(string, start, Optional count)<a class="headerlink" href="#mid-string-start-optional-count" title="Permalink to this headline">¶</a></h2>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">You should use <tt class="docutils literal"><span class="pre">System.String</span></tt>&#8216;s <tt class="docutils literal"><span class="pre">Substring</span></tt> method instead.</p>
+</div>
+<p>Extracts a substring:</p>
+<div class="highlight-python"><pre>Dim world = Mid("Hello world!", 7, 5)</pre>
+</div>
+</div>
+<div class="section" id="right-string-count">
+<span id="index-5"></span><h2>Right(string, count)<a class="headerlink" href="#right-string-count" title="Permalink to this headline">¶</a></h2>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">You should use <tt class="docutils literal"><span class="pre">System.String``s</span> <span class="pre">``Substring</span></tt> method instead.</p>
+</div>
+<p>Extracts the substring composed of the <tt class="docutils literal"><span class="pre">count</span></tt> right most characters in <tt class="docutils literal"><span class="pre">string</span></tt>:</p>
+<div class="highlight-python"><pre>Dim world = Right("Hello world", 5)</pre>
+</div>
+</div>
+<div class="section" id="left-string-count">
+<span id="index-6"></span><h2>Left(string, count)<a class="headerlink" href="#left-string-count" title="Permalink to this headline">¶</a></h2>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">You should use <tt class="docutils literal"><span class="pre">System.Strings</span></tt>&#8216;s <tt class="docutils literal"><span class="pre">Substring</span></tt> method instead.</p>
+</div>
+<p>Extracts the substring composed of the <tt class="docutils literal"><span class="pre">count</span></tt> left most characters in <tt class="docutils literal"><span class="pre">string</span></tt>:</p>
+<div class="highlight-python"><pre>Dim hello = Left("Hello world!", 5)</pre>
+</div>
+</div>
+<div class="section" id="ucase-string">
+<span id="index-7"></span><h2>UCase(string)<a class="headerlink" href="#ucase-string" title="Permalink to this headline">¶</a></h2>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">You should use <tt class="docutils literal"><span class="pre">System.String</span></tt>&#8216;s <tt class="docutils literal"><span class="pre">ToUpper</span></tt> method instead.</p>
+</div>
+<p>Returns a copy of the string converted to upper case:</p>
+<div class="highlight-python"><pre>Dim HELLO = UCase("hello")</pre>
+</div>
+</div>
+<div class="section" id="lcase-string">
+<span id="index-8"></span><h2>LCase(string)<a class="headerlink" href="#lcase-string" title="Permalink to this headline">¶</a></h2>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">You should use <tt class="docutils literal"><span class="pre">System.String</span></tt>&#8216;s ToLower`` method instead.</p>
+</div>
+<p>Returns a copy of the string converted to lower case:</p>
+<div class="highlight-python"><pre>Dim hello = LCase("HELLO")</pre>
+</div>
+</div>
+<div class="section" id="instr-optional-start-string-searchfor">
+<span id="index-9"></span><h2>InStr(Optional start, string, searchFor)<a class="headerlink" href="#instr-optional-start-string-searchfor" title="Permalink to this headline">¶</a></h2>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">You should use <tt class="docutils literal"><span class="pre">System.String</span></tt>&#8216;s <tt class="docutils literal"><span class="pre">IndexOf</span></tt> method instead.</p>
+</div>
+<p>Returns the 1-index based position of <tt class="docutils literal"><span class="pre">searchFor</span></tt> if it occurs in <tt class="docutils literal"><span class="pre">string</span></tt> starting at <tt class="docutils literal"><span class="pre">start</span></tt>, otherwise, it returns 0:</p>
+<div class="highlight-python"><pre>Dim seven = InStr("Hello world!", "world")</pre>
+</div>
+</div>
+<div class="section" id="instrrev-string-searchfor-optional-start">
+<span id="index-10"></span><h2>InStrRev(string, searchFor, Optional start)<a class="headerlink" href="#instrrev-string-searchfor-optional-start" title="Permalink to this headline">¶</a></h2>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">You should use <tt class="docutils literal"><span class="pre">System.String</span></tt>&#8216;s <tt class="docutils literal"><span class="pre">LastIndexOf</span></tt> method instead.</p>
+</div>
+<p>Returnst the 1-index based position of the last occurance of <tt class="docutils literal"><span class="pre">searchFor</span></tt> if it occurs in <tt class="docutils literal"><span class="pre">string</span></tt> starting at <tt class="docutils literal"><span class="pre">start</span></tt>, otherwise, it returns 0:</p>
+<div class="highlight-python"><pre>Dim seven = "InStrRev("world world!", "world")</pre>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Built-In Functions</a><ul>
+<li><a class="reference internal" href="#join-array-delimiter">Join(array, delimiter)</a></li>
+<li><a class="reference internal" href="#trim-string">Trim(string)</a></li>
+<li><a class="reference internal" href="#charat-string-i">CharAt(string, i)</a></li>
+<li><a class="reference internal" href="#len-string">Len(string)</a></li>
+<li><a class="reference internal" href="#mid-string-start-optional-count">Mid(string, start, Optional count)</a></li>
+<li><a class="reference internal" href="#right-string-count">Right(string, count)</a></li>
+<li><a class="reference internal" href="#left-string-count">Left(string, count)</a></li>
+<li><a class="reference internal" href="#ucase-string">UCase(string)</a></li>
+<li><a class="reference internal" href="#lcase-string">LCase(string)</a></li>
+<li><a class="reference internal" href="#instr-optional-start-string-searchfor">InStr(Optional start, string, searchFor)</a></li>
+<li><a class="reference internal" href="#instrrev-string-searchfor-optional-start">InStrRev(string, searchFor, Optional start)</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="classes.html"
+                        title="previous chapter">Classes</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="utilities.html"
+                        title="next chapter">Utilities</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/builtins.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="utilities.html" title="Utilities"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="classes.html" title="Classes"
+             >previous</a> |</li>
+        <li><a href="index.html">Wasabi: The ??? Parts v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Fog Creek Software.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

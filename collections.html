@@ -1,0 +1,247 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Collections &mdash; Wasabi: The ??? Parts v0.1 documentation</title>
+    <link rel="stylesheet" href="_static/wasabi.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Wasabi: The ??? Parts v0.1 documentation" href="index.html" />
+    <link rel="next" title="Classes" href="classes.html" />
+    <link rel="prev" title="Functions &amp; Subroutines" href="functions.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="classes.html" title="Classes"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="functions.html" title="Functions &amp; Subroutines"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Wasabi: The ??? Parts v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="collections">
+<h1>Collections<a class="headerlink" href="#collections" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="arrays">
+<span id="array"></span><span id="index-0"></span><h2>Arrays<a class="headerlink" href="#arrays" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="http://en.wikipedia.org/wiki/Array_data_type">Arrays</a> provide a means to hold a strongly typed collection of objects. They can bee <a class="reference internal" href="#array"><tt class="xref std std-keyword docutils literal"><span class="pre">Array</span></tt></a> function:</p>
+<div class="highlight-python"><pre>Dim xs = Array(1, 2, 3, 4)</pre>
+</div>
+<p>... or declared and initalized incrementally like so:</p>
+<div class="highlight-python"><pre>Dim xs(2)
+xs(0) = -1
+xs(2) = 1</pre>
+</div>
+<p>... which creates an array with valid indexes ranging from 0 to 2. Unitialized indexes have the default value for the type (0 for numbers, <a class="reference internal" href="glossary.html#term-nothing"><em class="xref std std-term">Nothing</em></a> for reference types, etc). Arrays can be indexed like so:</p>
+<div class="highlight-python"><pre>Dim xs = Array(0, 1, 2, 3)
+
+' True
+xs(2) &gt; 0
+
+' False
+xs(0) &gt; 0</pre>
+</div>
+<div class="section" id="type-annotations">
+<h3>Type Annotations<a class="headerlink" href="#type-annotations" title="Permalink to this headline">¶</a></h3>
+<p>For variables, function parameters and properties:</p>
+<div class="highlight-python"><pre>' Array of integers
+Dim xs() As Int32
+
+' Array of strings
+Dim adjectives() As [System.String]</pre>
+</div>
+<p>Function return types have their own rules, but parameters follow the same rules as variables:</p>
+<div class="highlight-python"><pre>Function MapInt(fn, xs() As Int32) As Int32()
+
+Function MapString(fn, strings() As [System.String]) As [System.String]()</pre>
+</div>
+</div>
+<div class="section" id="redim-preserve">
+<span id="redim"></span><span id="index-1"></span><span id="id2"></span><h3>ReDim<a class="headerlink" href="#redim-preserve" title="Permalink to this headline">¶</a></h3>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last"><a class="reference internal" href="#redim"><tt class="xref std std-keyword docutils literal"><span class="pre">ReDim</span></tt></a> and <a class="reference internal" href="#redim-preserve"><tt class="xref std std-keyword docutils literal"><span class="pre">ReDim</span> <span class="pre">Preserve</span></tt></a> are inherited from VBScript. You should use a collection that handles resizing (like <a class="reference external" href="http://msdn.microsoft.com/en-us/library/system.collections.arraylist.aspx">ArrayList</a>) rather than doing it yourself.</p>
+</div>
+<p><a class="reference internal" href="#redim"><tt class="xref std std-keyword docutils literal"><span class="pre">ReDim</span></tt></a> and <a class="reference internal" href="#redim-preserve"><tt class="xref std std-keyword docutils literal"><span class="pre">ReDim</span> <span class="pre">Preserve</span></tt></a> allow you to change the size of an array:</p>
+<div class="highlight-python"><pre>' An array with one cell
+Dim xs(0)
+
+' Resizes it to have two cells
+ReDim xs(1)
+
+
+
+Dim ys = Array(1, 2, 3)
+
+' Resizes the array and preserves the contents
+ReDim Preserve ys(5)</pre>
+</div>
+</div>
+<div class="section" id="utilities">
+<h3>Utilities<a class="headerlink" href="#utilities" title="Permalink to this headline">¶</a></h3>
+<p>It&#8217;s good to remember that Wasabi&#8217;s arrays are simply .NET arrays. Consequently, you can use the utilities provided by <a class="reference external" href="http://msdn.microsoft.com/en-us/library/system.array.aspx">System.Array</a> when working with them:</p>
+<div class="highlight-python"><pre>Dim xs = Array(1, 2, 3, 4)
+[System.Array].IndexOf(xs, 3)
+[System.Array].Sort(xs)</pre>
+</div>
+<p><a class="reference internal" href="utilities.html#fogcreek-core-arrays"><tt class="xref std std-keyword docutils literal"><span class="pre">FogCreek.Core.Arrays</span></tt></a> also provides a number of utility functions that are useful when working with arrays:</p>
+<div class="highlight-python"><pre>Dim xs = Array(-4, -3, -2, -1, 0, 1, 2, 3, 4)
+Dim ys = Arrays.FilterInt32(xs, Lambda (x) x &gt; 0)
+
+' Convert a .NET collection into a strongly-typed array
+Dim bugs = Arrays.ArrayFromICollectionCBug(list)</pre>
+</div>
+</div>
+</div>
+<div class="section" id="dictionaries">
+<span id="dictionary"></span><span id="index-2"></span><h2>Dictionaries<a class="headerlink" href="#dictionaries" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="http://en.wikipedia.org/wiki/Associative_array">Dictionaries</a> provide a way to map string keys to a strongly typed collection of objects. They can be created using the <a class="reference internal" href="#dictionary"><tt class="xref std std-keyword docutils literal"><span class="pre">Dictionary</span></tt></a> function:</p>
+<div class="highlight-python"><pre>Dim dict{} As String = Dictionary()</pre>
+</div>
+<p>Elements are set and accessed using indexers:</p>
+<div class="highlight-python"><pre>dict("msg") = "Hello world!"
+dict("name") = "Aaron"
+
+%&gt;&lt;%= dict("name") %&gt;&lt;%</pre>
+</div>
+<dl class="class">
+<dt id="Dictionary">
+<em class="property">class </em><tt class="descname">Dictionary</tt><a class="headerlink" href="#Dictionary" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="Dictionary.Add">
+<tt class="descname">Add</tt><big>(</big><em>key</em>, <em>value</em><big>)</big><a class="headerlink" href="#Dictionary.Add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a key-value pair to the dictionary.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Dictionary.Exists">
+<tt class="descname">Exists</tt><big>(</big><em>key</em><big>)</big><a class="headerlink" href="#Dictionary.Exists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns true if the key exists in the dictionary.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Dictionary.Items">
+<tt class="descname">Items</tt><big>(</big><big>)</big><a class="headerlink" href="#Dictionary.Items" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an array of the values stored in the dictionary.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Dictionary.Keys">
+<tt class="descname">Keys</tt><big>(</big><big>)</big><a class="headerlink" href="#Dictionary.Keys" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an array of the keys stored int he dictionary.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Dictionary.Remove">
+<tt class="descname">Remove</tt><big>(</big><em>key</em><big>)</big><a class="headerlink" href="#Dictionary.Remove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes the key and associated value from the dictionary.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Dictionary.RemoveAll">
+<tt class="descname">RemoveAll</tt><big>(</big><big>)</big><a class="headerlink" href="#Dictionary.RemoveAll" title="Permalink to this definition">¶</a></dt>
+<dd><p>Empties the dictionary.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Collections</a><ul>
+<li><a class="reference internal" href="#arrays">Arrays</a><ul>
+<li><a class="reference internal" href="#type-annotations">Type Annotations</a></li>
+<li><a class="reference internal" href="#redim-preserve">ReDim</a></li>
+<li><a class="reference internal" href="#utilities">Utilities</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#dictionaries">Dictionaries</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="functions.html"
+                        title="previous chapter">Functions &amp; Subroutines</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="classes.html"
+                        title="next chapter">Classes</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/collections.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="classes.html" title="Classes"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="functions.html" title="Functions &amp; Subroutines"
+             >previous</a> |</li>
+        <li><a href="index.html">Wasabi: The ??? Parts v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Fog Creek Software.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

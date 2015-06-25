@@ -1,0 +1,163 @@
+==================
+Built-In Functions
+==================
+
+Wasabi provides a number of built-in functions for string manipulation and other utilitiles. In general, you should prefer to use the appropriate .NET methods since they are better documented, more discoverable and in some cases, strictly better.
+
+.. index:: Join
+
+Join(array, delimiter)
+======================
+Joins the array with the supplied delimiter::
+
+	Dim values = Array("one", "two", "three")
+	Dim csv = Join(value, ", ")
+
+
+.. index:: Trim
+
+Trim(string)
+============
+Returns a copy of the string with leading and trailing whitespace removed::
+
+	Dim hello = "     hello    "
+
+.. index:: CharAt
+
+CharAt(string, i)
+=================
+.. warning::
+
+	You should use the ``System.String``'s item getter instead.
+
+Gets the character at the position ``i``::
+
+	Dim w = "Hello world!".CharAt(6)
+
+
+.. index:: Len
+
+Len(string)
+===========
+.. warning::
+
+	You should use ``System.String``'s ``Length`` property instead.
+
+Returns the length of a string, or 0 for ``Nothing``::
+
+	Dim length = Len("Hello World!")
+
+
+.. index:: Mid
+
+Mid(string, start, Optional count)
+==================================
+.. warning::
+
+	You should use ``System.String``'s ``Substring`` method instead.
+
+Extracts a substring::
+
+	Dim world = Mid("Hello world!", 7, 5)
+
+
+
+.. index:: Right
+
+Right(string, count)
+====================
+.. warning::
+
+	You should use ``System.String``s ``Substring`` method instead.
+
+Extracts the substring composed of the ``count`` right most characters in ``string``::
+
+	Dim world = Right("Hello world", 5)
+
+
+.. index:: Left
+
+Left(string, count)
+===================
+.. warning::
+	
+	You should use ``System.Strings``'s ``Substring`` method instead.
+
+Extracts the substring composed of the ``count`` left most characters in ``string``::
+
+	Dim hello = Left("Hello world!", 5)
+
+
+.. index:: UCase
+
+UCase(string)
+=============
+.. warning::
+
+	You should use ``System.String``'s ``ToUpper`` method instead.
+
+Returns a copy of the string converted to upper case::
+
+	Dim HELLO = UCase("hello")
+
+
+.. index:: LCase
+
+LCase(string)
+=============
+.. warning::
+	
+	You should use ``System.String``'s ToLower`` method instead.
+
+Returns a copy of the string converted to lower case::
+
+	Dim hello = LCase("HELLO")
+
+
+.. index:: InStr
+
+InStr(Optional start, string, searchFor)
+========================================
+.. warning::
+
+	You should use ``System.String``'s ``IndexOf`` method instead.
+
+Returns the 1-index based position of ``searchFor`` if it occurs in ``string`` starting at ``start``, otherwise, it returns 0::
+
+	Dim seven = InStr("Hello world!", "world")
+
+
+.. index:: InStrRev
+
+InStrRev(string, searchFor, Optional start)
+===========================================
+.. warning::
+
+	You should use ``System.String``'s ``LastIndexOf`` method instead.
+
+Returnst the 1-index based position of the last occurance of ``searchFor`` if it occurs in ``string`` starting at ``start``, otherwise, it returns 0::
+
+	Dim seven = "InStrRev("world world!", "world")
+
+
+.. todo::
+	Split(string exp, [Optional, WasabiType("string")] object delimiter, [Optional, WasabiType("Int32")] int? count, [Optional, WasabiType("Int32")] int? compare)
+	SplitOnChars(string exp, string scDelimiters)
+	Replace(string exp, string find, string replacewith, [Optional] object start, [Optional] object count, [Optional] object compare)
+	Chr(object exp)
+	ChrB(object exp)
+	ChrW(object exp)
+	static int Asc(object exp)
+	static int AscW(object exp)
+	Space(object count)
+	static int InStrB(object start, string exp, [Optional, WasabiType("string")] object @string)
+	MidB(string exp, object start, [Optional] object count)
+	WriteToFile(string exp, string filename)
+	static int AscB(string exp)
+	static int LenB(string exp)
+	StrReverse(string exp)
+	FormatCurrency(object exp, [Optional] object NumDigitsAfterDecimal, [Optional] object IncludeLeadingDigit, [Optional] object UseParensForNegativeNumbers, [Optional, WasabiType("string")] object GroupDigits)
+	FormatNumber(object exp, [Optional] object NumDigitsAfterDecimal, [Optional] object IncludeLeadingDigit, [Optional] object UseParensForNegativeNumbers, [Optional, WasabiType("string")] object GroupDigits)
+	StrComp(string string1, string string2, [Optional] object compare)
+	FormatString(string format, params object[] args)
+

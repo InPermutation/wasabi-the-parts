@@ -1,0 +1,282 @@
+Classes
+=======
+
+The simplest form of class definition looks like this ::
+
+	Class ClassName
+	End Class
+
+
+.. index::
+	keyword: Class
+	keyword: New
+
+.. _Class:
+.. _New:
+	
+Defining Classes
+----------------
+Classes are defined using the :keyword:`Class` keyword. Classes can be defined with Here's a simple class::
+
+	Class MyClass
+	  Private i = 1234
+
+	  Public Function f()
+	    Return "hello world"
+	  End Function
+	End Class
+
+... instantiating is accomplished using the :keyword:`New` keyword::
+
+	Dim x = New MyClass()
+
+... instances are initialized by the ``Class_Initialize`` subroutine which which can take any number of arguments. ``Class_Initialize`` is called implicitly by :keyword:`New`::
+
+	Class Complex
+	  Private r = 0
+	  Private i = 0
+
+	  Public Sub Class_Initialize(real, imaginary)
+	    Me.r = real
+	    Me.i = imaginary
+	  End Sub
+	End Class
+
+... and we can make a ``Complex`` like so::
+
+	Dim x = New Complex(3.0, -4.5)
+
+
+.. index::
+	keyword: Me
+
+Me
+--
+Withing an instance method or a constructor, :keyword:`Me` is a reference to the current object, that is: the object whose method or constructor is being called. You can refer to any member of the current object from within an instance method or a constructor by using :keyword:`Me`.
+
+
+.. index::
+	keyword: Property
+	keyword: Property Get
+	keyword: Property Set
+
+.. _Property:
+.. _Property Get:
+.. _Property Set:
+
+Properties
+----------
+Wasabi allows you to define `properties <http://en.wikipedia.org/wiki/Property_%28programming%29>`_ that allow you to implement getters and setters that are accessed like fields. Simple properties backed by a hidden field can be created using the ``<ConvertToProperty>`` code generator and more complicated properties can be specified explicitly using the :keyword:`Property` keyword::
+
+	Class Complex
+	  <ConvertToProperty> Public r = 0
+	  <ConvertToProperty> Public i = 0
+
+	  Public Property Get Conjugate
+	    Dim conj = New Complex()
+	    conj.r = r
+	    conj.i = -i
+	    Return conj
+	  End Property
+
+	  ' Yes, this is a nonsensical setter.
+	  Public Property Set Zero(r)
+	    If r <> 0 Then
+	      Throw New [System.Exception]()
+	    End If
+	
+	    Me.r = r
+	  End Property
+	End Class
+
+
+.. index::
+	keyword: Item
+	keyword: Property Get Item
+	keyword: Property Set Item
+	keyword: Default
+
+.. _Item:
+.. _Property Get Item:
+.. _Property Set Item:
+.. _Default:
+
+Indexers
+--------
+.. warning::
+
+	Indexers can be created explitly using the :keyword:`Default` keyword; however, the prefered method is to create indexers using the :keyword:`Item` property.
+
+Classes can implement indexing by creating a property named :keyword:`Item` with a one argument getter and two argument setter::
+	
+	Class Indexer
+	  Public Property Get Item(key)
+	    Return key
+	  End Property
+
+	  Public Property Set Item(key, value)
+	    ' Do nothing
+	  End Property
+	End Class
+
+	Dim indexer = New Indexer()
+
+	' Invokes the do-nothing setter
+	indexer("msg") = "Hello world"
+
+	' Returns "msg"
+	indexer("msg")
+
+
+.. index::
+	keyword: Static
+
+.. _Static:
+
+Static Members
+--------------
+.. warning::
+
+	Static members are shared between accounts in the FogBugz On Demand Environment. Consequently, you should **never** store information that is account specific in a static member as that will result in information leaking between accounts. Besides, you're generally better off storing things in a cache proper so take a look at ``CRequestCache.was`` and ``CRuntimeCache.was`` and see if they do what you want.
+
+	Furthermore, inside of methods (rather than free functions or subroutines), :keyword:`Shared` has the same semantics as :keyword:`Static` and should be avoided. Use static members directly if you're going to use them at all.
+
+Wasabi supports static members that are declared using the :keyword:`Static` keyword. For example::
+
+	Public Class Transform
+	  Private Sub Class_Initialize() : End Sub
+
+	  Private Static message = "Hello World!"
+
+	  Public Static Function Encode(s As String)
+	    Return s.ToUpper()
+	  End Function
+	End Class
+
+
+.. index::
+	keyword: Interface
+	keyword: Implements
+
+.. _Interface:
+.. _Implements:
+
+Interfaces
+----------
+Interfaces are defined using the :keyword:`Interface` keyword. Here's a simple interface::
+
+	Public Interface Shape
+	  Function Area() As Int32
+	End Interface
+
+... you can implement an interface like so::
+
+	Public Class Rectangle Implements Shape
+	  Private height = 0
+	  Private width = 0
+
+	  Public Sub Class_Initialize(height, width)
+	    Me.height = height
+	    Me.width = width
+	  End Sub
+
+	  Public Function Area()
+	    Return height * width
+	  End Function
+	End Class
+
+
+.. index::
+	keyword: Abstract
+	keyword: Base
+	keyword: Inherits
+	keyword: Override
+	keyword: Overridable
+
+.. _Abstract:
+.. _Base:
+.. _Inherits:
+.. _Override:
+.. _Overridable:
+
+Inheritance
+-----------
+Wasabi supports single inheritance using the :keyword:`Inherits` keyword. Constructor chaining is accomplished using the :keyword:`Base` keyword::
+
+	Public Class Square Inherits Rectangle
+	  Public Sub Class_Initialize(r), Base(r, r)
+	  End Sub
+	End Class
+
+Abstract classes can be defined using the :keyword:`Abstract` keyword. While abstract methods are implicitly :keyword:`Overridable`, non-abstract methods must be marked as :keyword:`Overridable` to allow subclasses to :keyword:`Override` them. Like in C#, you must explicitly :keyword:`Override` methods in the base class::
+
+	Public Abstract Class Animal
+	  Abstract Function Speak() As String
+
+	  Overridable Function Eat() As String
+	    Return "Yum!"
+	  End Function
+	End Class
+
+	Public Class Dog Inherits Animal
+	  Override Function Speak()
+	    Return "Woof!"
+	  End Function
+
+	  Override Function Eat()
+	    Return Base.Eat() & " Woof!"
+	  End Function
+	End Class
+
+... you can call inherited methods that you have overridden using the :keyword:`Base` keyword.
+
+
+.. index::
+	keyword: Enum
+
+.. _Enum:
+
+Enumerations
+------------
+Wasabi supports enumerations of the "map a name to a small integer" variety. They are declared using the :keyword:`Enum` keyword::
+
+	Enum Color
+	  Red
+	  Green
+	  Blue
+	End Enum
+
+... you can also specify the value of enumeration elements::
+
+	Enum Color
+	  Red = 0
+	  Green = 1
+	  Blue = 2
+	End Enum
+
+
+.. index::
+	keyword: Internal
+	keyword: Protected
+	keyword: Public
+	keyword: Private
+
+.. _Internal:
+.. _Protected:
+.. _Public:
+.. _Private:
+
+Access Control Modifiers
+------------------------
+.. note::
+	
+	It may be somewhat surprising but access control modifiers are not allowed on free functions and subroutines. Conseqently, in order to make a function public (to expose it to the plug-in API), you actually have to make a :keyword:`Public` :keyword:`Static` :keyword:`Function` on a :keyword:`Public` class. See ``Html.was`` for an example.
+
+Wasabi supports the following access control modifiers:
+
+* :keyword:`Internal`
+* :keyword:`Private`
+* :keyword:`Protected`
+* :keyword:`Public`
+
+:keyword:`Internal` and :keyword:`Public` are allowed to modify classes, interfaces and enums in addition to class members. The default protection level (when no modifier is specified) is :keyword:`Internal`. All of the modifiers are allowed on class members with the default being :keyword:`Internal`.

@@ -1,0 +1,188 @@
+=======================
+Functions & Subroutines
+=======================
+Thanks to its VBScript heritage, Wasabi makes a distinction between `functions and subroutines <http://en.wikipedia.org/wiki/Function_%28computer_science%29>`_ (Wikipedia, however, does not): functions return a value while subroutines do not. This ostensibly provides a distinction between functions you call for the value they return (functions) and ones you call for the `side effects <http://en.wikipedia.org/wiki/Side_effect_%28computer_science%29>`_ they cause (subroutine).
+
+.. index::
+	keyword: Function
+	keyword: End Function
+	keyword: Exit Function
+	keyword: Return
+
+.. _Function:
+.. _End Function:
+.. _Return:
+.. _Exit Function:
+
+Declaring Functions
+===================
+
+Functions are defined using the :keyword:`Function` keyword and values are returned using the :keyword:`Return` statement::
+
+	Function Fib(n)
+	  If n < 2 Then
+	    Return 1
+	  End If
+	
+	  Return Fib(n - 1) + Fib(n - 2)
+	End Function
+
+.. warning:: 
+
+	Inherited from VBScript, Wasabi allows you to set the return value of a :keyword:`Function` by assigning to the function's name and to exit early using the :keyword:`Exit Function` statement::
+	
+		Function Fib(n)
+		  If n < 2 Then
+		    Fib = 1
+		    Exit Function
+		  End If
+
+		  Fib = Fib(n - 1) + Fib(n - 2)
+		End Function
+
+	These practices are deprecated. Use the :keyword:`Return` instead.
+
+.. index::
+	keyword: Optional
+	keyword: :=
+
+.. _Optional:
+
+Optional and Named Parameters
+-----------------------------
+Functions allow you to specify optional parameters using the :keyword:`Optional`::
+
+	Function Indent(node, Optional depth = 0)
+	  Dim indent = "".PadLeft(depth)
+	  %><%= indent %><%= node %><%
+
+	  For Each Dim child in node.Children()
+	    Indent(child, depth + 1)
+		Next
+	End Function
+
+	Indent(tree)
+
+Futhermore, parameters can be specified by name using the :token:`:=` syntax::
+
+	Indent(node := tree, depth := 10)
+
+This is particularly useful for destinguishing literal parameters of the same type, but is also commonly used in conjunction with :keyword:`Optional` parameters. Keep in mind that all positional parameters must come before named parameters.
+
+.. index::
+	keyword: As
+
+Type Annotations
+----------------
+While Wasabi's type inferencer will infer the types of the majority of variables, you can provide type annotations to explicitly identify a functions return type and the types of it's parameters::
+
+	Function Fib(n As Int32) As Int32
+		' Calculate Fib(n)
+	End Function
+
+Generally, it is perfectly acceptable to not include type annotations on internal variables, but it is generally a good idea to provide type annotations on your external interfaces so that:
+
+1. The types accepted by your interfaces don't change inadvertently.
+2. You don't end up with a bunch of nonsensical type errors when you start calling something differently.
+
+
+.. index::
+	keyword: Shared
+
+.. _Shared:
+
+Shared Values
+-------------
+.. note::
+	
+	CRequestCache.was provides a per-request cache and it is generally perferable to use that rather than extensively using :keyword:`Shared` values.
+
+
+In side of functions and subroutines, Wasabi allows you to declare :keyword:`Shared` values that are simpliar to C-style `static variables <http://en.wikipedia.org/wiki/Static_variable>`_ but whose lifespan is limited to the current request. This behaviour can be used to implment a simple per-request cache::
+
+	Function RequestCache()
+		Dim Shared cache = New [System.Collections.Hashtable]()
+		Return cache
+	End Function
+
+In the above code, the first line is only executed once per request. Consequently, every invocation of ``RequestCache()`` in a given request will retrieve the same dictionary which allows the callers to to share a single cached object.
+
+
+.. index::
+	keyword: Sub
+	keyword: Exit Sub
+
+.. _Sub:
+.. _Exit Sub:
+
+Declaring Subroutines
+=====================
+
+Subroutines are defined using the :keyword:`Sub` keyword::
+
+	Sub Greetings(name, adjective)
+	  %>Hello <%= name %>. It's a <%= adjective %> day!<%
+	End Sub
+
+
+... and invoked like so::
+
+	Greetings "Aaron", "wonderful"
+
+Notice that the arguments to the subroutine call are **not** surrounded in parenthesis. The grammar does allow for parens to be included for single argument calls, but this is simply an artifact of using parens to group expressions and not part of the grammar of subroutine calls. Early exit from a subroutine is accomplished using the :keyword:`Return` statement, for example::
+
+	Sub Example(predicate)
+	  If predicate Then
+	    Return
+	  End If
+
+	  ' Do stuff
+	End Sub
+
+.. warning::
+
+	Wasabi also allows a subrouting to exit early using the :keyword:`Exit Sub` statement. This statment is deprecated, use :keyword:`Return` instead.
+
+
+.. index::
+	keyword: Lambda
+
+.. _Lambda:
+
+Function Objects
+================
+.. note::
+
+	Wasabi functions are **not** function objects, and do not capture their enclosing scope. In order to pass a function defined in a :keyword:`Function` statement to a `higher-order function <http://en.wikipedia.org/wiki/Higher-order_function>`_ you must wrap it in a simple :keyword:`Lambda`. 
+
+
+Wasabi supports function objects; however, not all functions are objects, they must be created explicitly using the :keyword:`Lambda` keyword. There are two forms of the :keyword:`Lambda` expression a short form::
+
+	Dim predicate = Lambda (x) x > 0
+
+... and a long form::
+
+	Function MakeAdder(x)
+	  Return Lambda (y)
+	    Return x + y
+	  End Lambda
+	End Function
+
+	' Returns: 3
+	MakeAdder(1)(2)
+
+:keyword:`Lambda` objects **do** capture the objects they reference in their `enclosing scope <http://en.wikipedia.org/wiki/Scope_%28computer_science%29#Lexical_scoping>`_, making them `closures <http://en.wikipedia.org/wiki/Closure_%28computer_science%29>`_.
+
+
+Type Annotations
+----------------
+The type of a function object is declared using the :keyword:`Function` keyword::
+
+	Function Filter(predicate As Function(Variant, Returns Boolean), list As Variant())
+		...
+	End Function
+
+
+References to Named Functions
+-----------------------------
+The ``GetRef(name)`` built-in function returns a reference to a named function that can be passed around like a Lambda object.

@@ -1,0 +1,258 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Functions &amp; Subroutines &mdash; Wasabi: The ??? Parts v0.1 documentation</title>
+    <link rel="stylesheet" href="_static/wasabi.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Wasabi: The ??? Parts v0.1 documentation" href="index.html" />
+    <link rel="next" title="Collections" href="collections.html" />
+    <link rel="prev" title="Statements" href="statements.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="collections.html" title="Collections"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="statements.html" title="Statements"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Wasabi: The ??? Parts v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="functions-subroutines">
+<h1>Functions &amp; Subroutines<a class="headerlink" href="#functions-subroutines" title="Permalink to this headline">¶</a></h1>
+<p>Thanks to its VBScript heritage, Wasabi makes a distinction between <a class="reference external" href="http://en.wikipedia.org/wiki/Function_%28computer_science%29">functions and subroutines</a> (Wikipedia, however, does not): functions return a value while subroutines do not. This ostensibly provides a distinction between functions you call for the value they return (functions) and ones you call for the <a class="reference external" href="http://en.wikipedia.org/wiki/Side_effect_%28computer_science%29">side effects</a> they cause (subroutine).</p>
+<div class="section" id="declaring-functions">
+<span id="exit-function"></span><span id="return"></span><span id="end-function"></span><span id="function"></span><span id="index-0"></span><h2>Declaring Functions<a class="headerlink" href="#declaring-functions" title="Permalink to this headline">¶</a></h2>
+<p>Functions are defined using the <a class="reference internal" href="#function"><tt class="xref std std-keyword docutils literal"><span class="pre">Function</span></tt></a> keyword and values are returned using the <a class="reference internal" href="#return"><tt class="xref std std-keyword docutils literal"><span class="pre">Return</span></tt></a> statement:</p>
+<div class="highlight-python"><pre>Function Fib(n)
+  If n &lt; 2 Then
+    Return 1
+  End If
+
+  Return Fib(n - 1) + Fib(n - 2)
+End Function</pre>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>Inherited from VBScript, Wasabi allows you to set the return value of a <a class="reference internal" href="#function"><tt class="xref std std-keyword docutils literal"><span class="pre">Function</span></tt></a> by assigning to the function&#8217;s name and to exit early using the <a class="reference internal" href="#exit-function"><tt class="xref std std-keyword docutils literal"><span class="pre">Exit</span> <span class="pre">Function</span></tt></a> statement:</p>
+<div class="highlight-python"><pre>Function Fib(n)
+  If n &lt; 2 Then
+    Fib = 1
+    Exit Function
+  End If
+
+  Fib = Fib(n - 1) + Fib(n - 2)
+End Function</pre>
+</div>
+<p class="last">These practices are deprecated. Use the <a class="reference internal" href="#return"><tt class="xref std std-keyword docutils literal"><span class="pre">Return</span></tt></a> instead.</p>
+</div>
+<div class="section" id="optional-and-named-parameters">
+<span id="optional"></span><span id="index-1"></span><h3>Optional and Named Parameters<a class="headerlink" href="#optional-and-named-parameters" title="Permalink to this headline">¶</a></h3>
+<p>Functions allow you to specify optional parameters using the <a class="reference internal" href="#optional"><tt class="xref std std-keyword docutils literal"><span class="pre">Optional</span></tt></a>:</p>
+<div class="highlight-python"><pre>Function Indent(node, Optional depth = 0)
+  Dim indent = "".PadLeft(depth)
+  %&gt;&lt;%= indent %&gt;&lt;%= node %&gt;&lt;%
+
+  For Each Dim child in node.Children()
+    Indent(child, depth + 1)
+        Next
+End Function
+
+Indent(tree)</pre>
+</div>
+<p>Futhermore, parameters can be specified by name using the <tt class="xref std std-token docutils literal"><span class="pre">:=</span></tt> syntax:</p>
+<div class="highlight-python"><pre>Indent(node := tree, depth := 10)</pre>
+</div>
+<p>This is particularly useful for destinguishing literal parameters of the same type, but is also commonly used in conjunction with <a class="reference internal" href="#optional"><tt class="xref std std-keyword docutils literal"><span class="pre">Optional</span></tt></a> parameters. Keep in mind that all positional parameters must come before named parameters.</p>
+</div>
+<div class="section" id="type-annotations">
+<span id="index-2"></span><h3>Type Annotations<a class="headerlink" href="#type-annotations" title="Permalink to this headline">¶</a></h3>
+<p>While Wasabi&#8217;s type inferencer will infer the types of the majority of variables, you can provide type annotations to explicitly identify a functions return type and the types of it&#8217;s parameters:</p>
+<div class="highlight-python"><pre>Function Fib(n As Int32) As Int32
+        ' Calculate Fib(n)
+End Function</pre>
+</div>
+<p>Generally, it is perfectly acceptable to not include type annotations on internal variables, but it is generally a good idea to provide type annotations on your external interfaces so that:</p>
+<ol class="arabic simple">
+<li>The types accepted by your interfaces don&#8217;t change inadvertently.</li>
+<li>You don&#8217;t end up with a bunch of nonsensical type errors when you start calling something differently.</li>
+</ol>
+</div>
+<div class="section" id="shared-values">
+<span id="shared"></span><span id="index-3"></span><h3>Shared Values<a class="headerlink" href="#shared-values" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">CRequestCache.was provides a per-request cache and it is generally perferable to use that rather than extensively using <a class="reference internal" href="#shared"><tt class="xref std std-keyword docutils literal"><span class="pre">Shared</span></tt></a> values.</p>
+</div>
+<p>In side of functions and subroutines, Wasabi allows you to declare <a class="reference internal" href="#shared"><tt class="xref std std-keyword docutils literal"><span class="pre">Shared</span></tt></a> values that are simpliar to C-style <a class="reference external" href="http://en.wikipedia.org/wiki/Static_variable">static variables</a> but whose lifespan is limited to the current request. This behaviour can be used to implment a simple per-request cache:</p>
+<div class="highlight-python"><pre>Function RequestCache()
+        Dim Shared cache = New [System.Collections.Hashtable]()
+        Return cache
+End Function</pre>
+</div>
+<p>In the above code, the first line is only executed once per request. Consequently, every invocation of <tt class="docutils literal"><span class="pre">RequestCache()</span></tt> in a given request will retrieve the same dictionary which allows the callers to to share a single cached object.</p>
+</div>
+</div>
+<div class="section" id="declaring-subroutines">
+<span id="exit-sub"></span><span id="sub"></span><span id="index-4"></span><h2>Declaring Subroutines<a class="headerlink" href="#declaring-subroutines" title="Permalink to this headline">¶</a></h2>
+<p>Subroutines are defined using the <a class="reference internal" href="#sub"><tt class="xref std std-keyword docutils literal"><span class="pre">Sub</span></tt></a> keyword:</p>
+<div class="highlight-python"><pre>Sub Greetings(name, adjective)
+  %&gt;Hello &lt;%= name %&gt;. It's a &lt;%= adjective %&gt; day!&lt;%
+End Sub</pre>
+</div>
+<p>... and invoked like so:</p>
+<div class="highlight-python"><pre>Greetings "Aaron", "wonderful"</pre>
+</div>
+<p>Notice that the arguments to the subroutine call are <strong>not</strong> surrounded in parenthesis. The grammar does allow for parens to be included for single argument calls, but this is simply an artifact of using parens to group expressions and not part of the grammar of subroutine calls. Early exit from a subroutine is accomplished using the <a class="reference internal" href="#return"><tt class="xref std std-keyword docutils literal"><span class="pre">Return</span></tt></a> statement, for example:</p>
+<div class="highlight-python"><pre>Sub Example(predicate)
+  If predicate Then
+    Return
+  End If
+
+  ' Do stuff
+End Sub</pre>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Wasabi also allows a subrouting to exit early using the <a class="reference internal" href="#exit-sub"><tt class="xref std std-keyword docutils literal"><span class="pre">Exit</span> <span class="pre">Sub</span></tt></a> statement. This statment is deprecated, use <a class="reference internal" href="#return"><tt class="xref std std-keyword docutils literal"><span class="pre">Return</span></tt></a> instead.</p>
+</div>
+</div>
+<div class="section" id="function-objects">
+<span id="lambda"></span><span id="index-5"></span><h2>Function Objects<a class="headerlink" href="#function-objects" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Wasabi functions are <strong>not</strong> function objects, and do not capture their enclosing scope. In order to pass a function defined in a <a class="reference internal" href="#function"><tt class="xref std std-keyword docutils literal"><span class="pre">Function</span></tt></a> statement to a <a class="reference external" href="http://en.wikipedia.org/wiki/Higher-order_function">higher-order function</a> you must wrap it in a simple <a class="reference internal" href="#lambda"><tt class="xref std std-keyword docutils literal"><span class="pre">Lambda</span></tt></a>.</p>
+</div>
+<p>Wasabi supports function objects; however, not all functions are objects, they must be created explicitly using the <a class="reference internal" href="#lambda"><tt class="xref std std-keyword docutils literal"><span class="pre">Lambda</span></tt></a> keyword. There are two forms of the <a class="reference internal" href="#lambda"><tt class="xref std std-keyword docutils literal"><span class="pre">Lambda</span></tt></a> expression a short form:</p>
+<div class="highlight-python"><pre>Dim predicate = Lambda (x) x &gt; 0</pre>
+</div>
+<p>... and a long form:</p>
+<div class="highlight-python"><pre>Function MakeAdder(x)
+  Return Lambda (y)
+    Return x + y
+  End Lambda
+End Function
+
+' Returns: 3
+MakeAdder(1)(2)</pre>
+</div>
+<p><a class="reference internal" href="#lambda"><tt class="xref std std-keyword docutils literal"><span class="pre">Lambda</span></tt></a> objects <strong>do</strong> capture the objects they reference in their <a class="reference external" href="http://en.wikipedia.org/wiki/Scope_%28computer_science%29#Lexical_scoping">enclosing scope</a>, making them <a class="reference external" href="http://en.wikipedia.org/wiki/Closure_%28computer_science%29">closures</a>.</p>
+<div class="section" id="id1">
+<h3>Type Annotations<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>The type of a function object is declared using the <a class="reference internal" href="#function"><tt class="xref std std-keyword docutils literal"><span class="pre">Function</span></tt></a> keyword:</p>
+<div class="highlight-python"><pre>Function Filter(predicate As Function(Variant, Returns Boolean), list As Variant())
+        ...
+End Function</pre>
+</div>
+</div>
+<div class="section" id="references-to-named-functions">
+<h3>References to Named Functions<a class="headerlink" href="#references-to-named-functions" title="Permalink to this headline">¶</a></h3>
+<p>The <tt class="docutils literal"><span class="pre">GetRef(name)</span></tt> built-in function returns a reference to a named function that can be passed around like a Lambda object.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Functions &amp; Subroutines</a><ul>
+<li><a class="reference internal" href="#declaring-functions">Declaring Functions</a><ul>
+<li><a class="reference internal" href="#optional-and-named-parameters">Optional and Named Parameters</a></li>
+<li><a class="reference internal" href="#type-annotations">Type Annotations</a></li>
+<li><a class="reference internal" href="#shared-values">Shared Values</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#declaring-subroutines">Declaring Subroutines</a></li>
+<li><a class="reference internal" href="#function-objects">Function Objects</a><ul>
+<li><a class="reference internal" href="#id1">Type Annotations</a></li>
+<li><a class="reference internal" href="#references-to-named-functions">References to Named Functions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="statements.html"
+                        title="previous chapter">Statements</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="collections.html"
+                        title="next chapter">Collections</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/functions.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="collections.html" title="Collections"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="statements.html" title="Statements"
+             >previous</a> |</li>
+        <li><a href="index.html">Wasabi: The ??? Parts v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Fog Creek Software.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

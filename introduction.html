@@ -1,0 +1,126 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>A Brief and Highly Inaccurate History of Wasabi &mdash; Wasabi: The ??? Parts v0.1 documentation</title>
+    <link rel="stylesheet" href="_static/wasabi.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Wasabi: The ??? Parts v0.1 documentation" href="index.html" />
+    <link rel="next" title="A First Program" href="a_first_program.html" />
+    <link rel="prev" title="Wasabi: The ??? Parts" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="a_first_program.html" title="A First Program"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Wasabi: The ??? Parts"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Wasabi: The ??? Parts v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="a-brief-and-highly-inaccurate-history-of-wasabi">
+<h1>A Brief and Highly Inaccurate History of Wasabi<a class="headerlink" href="#a-brief-and-highly-inaccurate-history-of-wasabi" title="Permalink to this headline">¶</a></h1>
+<p>Wasabi, like all things, is a product of its history. FogBugz started life as a Classic ASP application as on Windows, at the time, it was pretty much the only technology for building web applications. At some point later, somebody decided that they wanted to run FogBugz on Linux. Unfortunately, FogBugz on Demand didn&#8217;t exist yet and while products existed that ran ASP on Linux they cost more than FogBugz did. Noticing the similarity in semantics between ASP and PHP an idea was born: Thistle.</p>
+<p>Thistle was origionally an intern project to produce a source-to-source translator that translated ASP into PHP by adding dollar signs to variable names and implementing <tt class="docutils literal"><span class="pre">LBound</span></tt> and <tt class="docutils literal"><span class="pre">UBound</span></tt> in PHP. This allowed something magical to happen: FogBugz could run on Linux. It didn&#8217;t necessarily run particularly well and the Linux release of FogBugz would often lag weeks or months after the Windows release shipped as we got the PHP version working, but the fact remains that we had a Classic ASP application running on Linux and we didn&#8217;t have to pay anybody for the privilege.</p>
+<p>The &#8220;lagging weeks or months...&#8221; thing resulted in another idea: Add an ASP backend to Thistle and run that instead of the hand-written ASP. This would allow us to make sure that Thistle was generating sensible code during development as opposed to during the mad dash to get PHP FogBugz working. This idea opened the door to another idea: Since we&#8217;re generating both the ASP and PHP that actually runs, we&#8217;re no longer restricted to VBScript+Tie-Fighters as our input language. We could add features, so we did. We added type-inference and <a class="reference internal" href="functions.html#lambda"><tt class="xref std std-keyword docutils literal"><span class="pre">Lambda</span></tt></a>, and <a class="reference internal" href="statements.html#for-each"><tt class="xref std std-keyword docutils literal"><span class="pre">For</span> <span class="pre">Each</span></tt></a> and <a class="reference internal" href="statements.html#do-while"><tt class="xref std std-keyword docutils literal"><span class="pre">Do</span> <span class="pre">While</span></tt></a> and <tt class="docutils literal"><span class="pre">&lt;ExecuteAnywhere&gt;</span></tt> and <tt class="docutils literal"><span class="pre">&lt;ExecuteAtCompiler&gt;</span></tt> and various and sundry other features until FogBugz was no longer a Classic ASP application and the language it was written in could no longer be properly described as VBScript. Thus, Wasabi was born.</p>
+<p>ASP.NET was released in 2002, and this was the beginning of the end for Classic ASP. Unfortunately, the extensions added by Wasabi and the desire to run on Linux meant that there wasn&#8217;t any straight-forward migration path from ASP to ASP.NET, which meant that FogBugz ended up using the Classic ASP runtime until well past it&#8217;s sell-by date... and the ASP runtime did not age well: It was pretty much the slowest runtime in existence and while the PHP backend had improved it was still a bit of a mess. Consequently, after FogBugz 6.0 shipped we decided that we really needed to target a different runtime and selected .NET. .NET had the advantages that it worked really well on Windows (which is our platform of choice thanks to our Classic ASP heritage), ran a &lt;bizarre metaphor&gt; faster than Classic ASP, and due to the emergence of Mono it was possible to run .NET applications on Linux without the need for the PHP backend.</p>
+<p>While the .NET version of FogBugz was initially going to be shipped as FogBugz 6.5, we decided that a new release without features wasn&#8217;t worth it. Taking advantage of Wasabi&#8217;s new found .NET features, we created a plug-in API and several plug-ins to address a number of frequent but minor customer issues. Those plug-ins plus the new .NET architecture we released as FogBugz 7.0. As part of the 8.0 release cycle, we implemented several large features as plug-ins, notably Reporting, Mobile FogBugz and some wiki enhancements which has cemented FogBugz as a .NET application.</p>
+</div>
+<div class="section" id="this-book">
+<h1>This Book<a class="headerlink" href="#this-book" title="Permalink to this headline">¶</a></h1>
+<p>On of the biggest issues of with Wasabi is that it is completely undocumented. Given Wasabi&#8217;s VBScript heritage, it&#8217;s obvious C# influence and it&#8217;s kitchen sink approach to features, the lack of documentation means that it can be genuinely frustrating to figure out how to do even the most basic things. This book is an attempt to document what I know about Wasabi so that I never again have to rediscover how to do constructor chaining or try to figure out whether or not Wasabi has a <tt class="docutils literal"><span class="pre">continue</span></tt> statement (it doesn&#8217;t).</p>
+<p>I am writing this using <a class="reference external" href="http://sphinx.pocoo.org/">Sphinx</a> as a form of cargo cult documentation. Basically, I know of several well documented projects that use Sphinx (Python, Django, Paver) and basically none that use Javadoc style automatic documentation (the Java standard library&#8217;s Javadocs being shining example of how to do it right and pretty much everything else I&#8217;ve seen (including MSDN) being an example of how to do it wrong). So I&#8217;m using Sphinx in the hope that I&#8217;ll some how end up with reasonable documentation.</p>
+<p>If you would like to share what you know about Wasabi, <a class="reference external" href="http://our.fogbugz.com/kiln/Repo/FogBugz/Experiments/Wasabi---The-Parts">patches are welcome</a> <tt class="docutils literal"><span class="pre">;-)</span></tt>.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">A Brief and Highly Inaccurate History of Wasabi</a></li>
+<li><a class="reference internal" href="#this-book">This Book</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Wasabi: The ??? Parts</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="a_first_program.html"
+                        title="next chapter">A First Program</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/introduction.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="a_first_program.html" title="A First Program"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Wasabi: The ??? Parts"
+             >previous</a> |</li>
+        <li><a href="index.html">Wasabi: The ??? Parts v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Fog Creek Software.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

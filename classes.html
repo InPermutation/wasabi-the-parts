@@ -1,0 +1,316 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Classes &mdash; Wasabi: The ??? Parts v0.1 documentation</title>
+    <link rel="stylesheet" href="_static/wasabi.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Wasabi: The ??? Parts v0.1 documentation" href="index.html" />
+    <link rel="next" title="Built-In Functions" href="builtins.html" />
+    <link rel="prev" title="Collections" href="collections.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="builtins.html" title="Built-In Functions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="collections.html" title="Collections"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Wasabi: The ??? Parts v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="classes">
+<h1>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h1>
+<p>The simplest form of class definition looks like this</p>
+<div class="highlight-python"><pre>Class ClassName
+End Class</pre>
+</div>
+<div class="section" id="defining-classes">
+<span id="new"></span><span id="class"></span><span id="index-0"></span><h2>Defining Classes<a class="headerlink" href="#defining-classes" title="Permalink to this headline">¶</a></h2>
+<p>Classes are defined using the <a class="reference internal" href="#class"><tt class="xref std std-keyword docutils literal"><span class="pre">Class</span></tt></a> keyword. Classes can be defined with Here&#8217;s a simple class:</p>
+<div class="highlight-python"><pre>Class MyClass
+  Private i = 1234
+
+  Public Function f()
+    Return "hello world"
+  End Function
+End Class</pre>
+</div>
+<p>... instantiating is accomplished using the <a class="reference internal" href="#new"><tt class="xref std std-keyword docutils literal"><span class="pre">New</span></tt></a> keyword:</p>
+<div class="highlight-python"><pre>Dim x = New MyClass()</pre>
+</div>
+<p>... instances are initialized by the <tt class="docutils literal"><span class="pre">Class_Initialize</span></tt> subroutine which which can take any number of arguments. <tt class="docutils literal"><span class="pre">Class_Initialize</span></tt> is called implicitly by <a class="reference internal" href="#new"><tt class="xref std std-keyword docutils literal"><span class="pre">New</span></tt></a>:</p>
+<div class="highlight-python"><pre>Class Complex
+  Private r = 0
+  Private i = 0
+
+  Public Sub Class_Initialize(real, imaginary)
+    Me.r = real
+    Me.i = imaginary
+  End Sub
+End Class</pre>
+</div>
+<p>... and we can make a <tt class="docutils literal"><span class="pre">Complex</span></tt> like so:</p>
+<div class="highlight-python"><pre>Dim x = New Complex(3.0, -4.5)</pre>
+</div>
+</div>
+<div class="section" id="me">
+<span id="index-1"></span><h2>Me<a class="headerlink" href="#me" title="Permalink to this headline">¶</a></h2>
+<p>Withing an instance method or a constructor, <tt class="xref std std-keyword docutils literal"><span class="pre">Me</span></tt> is a reference to the current object, that is: the object whose method or constructor is being called. You can refer to any member of the current object from within an instance method or a constructor by using <tt class="xref std std-keyword docutils literal"><span class="pre">Me</span></tt>.</p>
+</div>
+<div class="section" id="properties">
+<span id="property-set"></span><span id="property-get"></span><span id="property"></span><span id="index-2"></span><h2>Properties<a class="headerlink" href="#properties" title="Permalink to this headline">¶</a></h2>
+<p>Wasabi allows you to define <a class="reference external" href="http://en.wikipedia.org/wiki/Property_%28programming%29">properties</a> that allow you to implement getters and setters that are accessed like fields. Simple properties backed by a hidden field can be created using the <tt class="docutils literal"><span class="pre">&lt;ConvertToProperty&gt;</span></tt> code generator and more complicated properties can be specified explicitly using the <a class="reference internal" href="#property"><tt class="xref std std-keyword docutils literal"><span class="pre">Property</span></tt></a> keyword:</p>
+<div class="highlight-python"><pre>Class Complex
+  &lt;ConvertToProperty&gt; Public r = 0
+  &lt;ConvertToProperty&gt; Public i = 0
+
+  Public Property Get Conjugate
+    Dim conj = New Complex()
+    conj.r = r
+    conj.i = -i
+    Return conj
+  End Property
+
+  ' Yes, this is a nonsensical setter.
+  Public Property Set Zero(r)
+    If r &lt;&gt; 0 Then
+      Throw New [System.Exception]()
+    End If
+
+    Me.r = r
+  End Property
+End Class</pre>
+</div>
+</div>
+<div class="section" id="indexers">
+<span id="default"></span><span id="property-set-item"></span><span id="property-get-item"></span><span id="item"></span><span id="index-3"></span><h2>Indexers<a class="headerlink" href="#indexers" title="Permalink to this headline">¶</a></h2>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Indexers can be created explitly using the <a class="reference internal" href="#default"><tt class="xref std std-keyword docutils literal"><span class="pre">Default</span></tt></a> keyword; however, the prefered method is to create indexers using the <a class="reference internal" href="#item"><tt class="xref std std-keyword docutils literal"><span class="pre">Item</span></tt></a> property.</p>
+</div>
+<p>Classes can implement indexing by creating a property named <a class="reference internal" href="#item"><tt class="xref std std-keyword docutils literal"><span class="pre">Item</span></tt></a> with a one argument getter and two argument setter:</p>
+<div class="highlight-python"><pre>Class Indexer
+  Public Property Get Item(key)
+    Return key
+  End Property
+
+  Public Property Set Item(key, value)
+    ' Do nothing
+  End Property
+End Class
+
+Dim indexer = New Indexer()
+
+' Invokes the do-nothing setter
+indexer("msg") = "Hello world"
+
+' Returns "msg"
+indexer("msg")</pre>
+</div>
+</div>
+<div class="section" id="static-members">
+<span id="static"></span><span id="index-4"></span><h2>Static Members<a class="headerlink" href="#static-members" title="Permalink to this headline">¶</a></h2>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>Static members are shared between accounts in the FogBugz On Demand Environment. Consequently, you should <strong>never</strong> store information that is account specific in a static member as that will result in information leaking between accounts. Besides, you&#8217;re generally better off storing things in a cache proper so take a look at <tt class="docutils literal"><span class="pre">CRequestCache.was</span></tt> and <tt class="docutils literal"><span class="pre">CRuntimeCache.was</span></tt> and see if they do what you want.</p>
+<p class="last">Furthermore, inside of methods (rather than free functions or subroutines), <a class="reference internal" href="functions.html#shared"><tt class="xref std std-keyword docutils literal"><span class="pre">Shared</span></tt></a> has the same semantics as <a class="reference internal" href="#static"><tt class="xref std std-keyword docutils literal"><span class="pre">Static</span></tt></a> and should be avoided. Use static members directly if you&#8217;re going to use them at all.</p>
+</div>
+<p>Wasabi supports static members that are declared using the <a class="reference internal" href="#static"><tt class="xref std std-keyword docutils literal"><span class="pre">Static</span></tt></a> keyword. For example:</p>
+<div class="highlight-python"><pre>Public Class Transform
+  Private Sub Class_Initialize() : End Sub
+
+  Private Static message = "Hello World!"
+
+  Public Static Function Encode(s As String)
+    Return s.ToUpper()
+  End Function
+End Class</pre>
+</div>
+</div>
+<div class="section" id="interfaces">
+<span id="implements"></span><span id="interface"></span><span id="index-5"></span><h2>Interfaces<a class="headerlink" href="#interfaces" title="Permalink to this headline">¶</a></h2>
+<p>Interfaces are defined using the <a class="reference internal" href="#interface"><tt class="xref std std-keyword docutils literal"><span class="pre">Interface</span></tt></a> keyword. Here&#8217;s a simple interface:</p>
+<div class="highlight-python"><pre>Public Interface Shape
+  Function Area() As Int32
+End Interface</pre>
+</div>
+<p>... you can implement an interface like so:</p>
+<div class="highlight-python"><pre>Public Class Rectangle Implements Shape
+  Private height = 0
+  Private width = 0
+
+  Public Sub Class_Initialize(height, width)
+    Me.height = height
+    Me.width = width
+  End Sub
+
+  Public Function Area()
+    Return height * width
+  End Function
+End Class</pre>
+</div>
+</div>
+<div class="section" id="inheritance">
+<span id="overridable"></span><span id="override"></span><span id="inherits"></span><span id="base"></span><span id="abstract"></span><span id="index-6"></span><h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline">¶</a></h2>
+<p>Wasabi supports single inheritance using the <a class="reference internal" href="#inherits"><tt class="xref std std-keyword docutils literal"><span class="pre">Inherits</span></tt></a> keyword. Constructor chaining is accomplished using the <a class="reference internal" href="#base"><tt class="xref std std-keyword docutils literal"><span class="pre">Base</span></tt></a> keyword:</p>
+<div class="highlight-python"><pre>Public Class Square Inherits Rectangle
+  Public Sub Class_Initialize(r), Base(r, r)
+  End Sub
+End Class</pre>
+</div>
+<p>Abstract classes can be defined using the <a class="reference internal" href="#abstract"><tt class="xref std std-keyword docutils literal"><span class="pre">Abstract</span></tt></a> keyword. While abstract methods are implicitly <a class="reference internal" href="#overridable"><tt class="xref std std-keyword docutils literal"><span class="pre">Overridable</span></tt></a>, non-abstract methods must be marked as <a class="reference internal" href="#overridable"><tt class="xref std std-keyword docutils literal"><span class="pre">Overridable</span></tt></a> to allow subclasses to <a class="reference internal" href="#override"><tt class="xref std std-keyword docutils literal"><span class="pre">Override</span></tt></a> them. Like in C#, you must explicitly <a class="reference internal" href="#override"><tt class="xref std std-keyword docutils literal"><span class="pre">Override</span></tt></a> methods in the base class:</p>
+<div class="highlight-python"><pre>Public Abstract Class Animal
+  Abstract Function Speak() As String
+
+  Overridable Function Eat() As String
+    Return "Yum!"
+  End Function
+End Class
+
+Public Class Dog Inherits Animal
+  Override Function Speak()
+    Return "Woof!"
+  End Function
+
+  Override Function Eat()
+    Return Base.Eat() &amp; " Woof!"
+  End Function
+End Class</pre>
+</div>
+<p>... you can call inherited methods that you have overridden using the <a class="reference internal" href="#base"><tt class="xref std std-keyword docutils literal"><span class="pre">Base</span></tt></a> keyword.</p>
+</div>
+<div class="section" id="enumerations">
+<span id="enum"></span><span id="index-7"></span><h2>Enumerations<a class="headerlink" href="#enumerations" title="Permalink to this headline">¶</a></h2>
+<p>Wasabi supports enumerations of the &#8220;map a name to a small integer&#8221; variety. They are declared using the <a class="reference internal" href="#enum"><tt class="xref std std-keyword docutils literal"><span class="pre">Enum</span></tt></a> keyword:</p>
+<div class="highlight-python"><pre>Enum Color
+  Red
+  Green
+  Blue
+End Enum</pre>
+</div>
+<p>... you can also specify the value of enumeration elements:</p>
+<div class="highlight-python"><pre>Enum Color
+  Red = 0
+  Green = 1
+  Blue = 2
+End Enum</pre>
+</div>
+</div>
+<div class="section" id="access-control-modifiers">
+<span id="private"></span><span id="public"></span><span id="protected"></span><span id="internal"></span><span id="index-8"></span><h2>Access Control Modifiers<a class="headerlink" href="#access-control-modifiers" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">It may be somewhat surprising but access control modifiers are not allowed on free functions and subroutines. Conseqently, in order to make a function public (to expose it to the plug-in API), you actually have to make a <a class="reference internal" href="#public"><tt class="xref std std-keyword docutils literal"><span class="pre">Public</span></tt></a> <a class="reference internal" href="#static"><tt class="xref std std-keyword docutils literal"><span class="pre">Static</span></tt></a> <a class="reference internal" href="functions.html#function"><tt class="xref std std-keyword docutils literal"><span class="pre">Function</span></tt></a> on a <a class="reference internal" href="#public"><tt class="xref std std-keyword docutils literal"><span class="pre">Public</span></tt></a> class. See <tt class="docutils literal"><span class="pre">Html.was</span></tt> for an example.</p>
+</div>
+<p>Wasabi supports the following access control modifiers:</p>
+<ul class="simple">
+<li><a class="reference internal" href="#internal"><tt class="xref std std-keyword docutils literal"><span class="pre">Internal</span></tt></a></li>
+<li><a class="reference internal" href="#private"><tt class="xref std std-keyword docutils literal"><span class="pre">Private</span></tt></a></li>
+<li><a class="reference internal" href="#protected"><tt class="xref std std-keyword docutils literal"><span class="pre">Protected</span></tt></a></li>
+<li><a class="reference internal" href="#public"><tt class="xref std std-keyword docutils literal"><span class="pre">Public</span></tt></a></li>
+</ul>
+<p><a class="reference internal" href="#internal"><tt class="xref std std-keyword docutils literal"><span class="pre">Internal</span></tt></a> and <a class="reference internal" href="#public"><tt class="xref std std-keyword docutils literal"><span class="pre">Public</span></tt></a> are allowed to modify classes, interfaces and enums in addition to class members. The default protection level (when no modifier is specified) is <a class="reference internal" href="#internal"><tt class="xref std std-keyword docutils literal"><span class="pre">Internal</span></tt></a>. All of the modifiers are allowed on class members with the default being <a class="reference internal" href="#internal"><tt class="xref std std-keyword docutils literal"><span class="pre">Internal</span></tt></a>.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Classes</a><ul>
+<li><a class="reference internal" href="#defining-classes">Defining Classes</a></li>
+<li><a class="reference internal" href="#me">Me</a></li>
+<li><a class="reference internal" href="#properties">Properties</a></li>
+<li><a class="reference internal" href="#indexers">Indexers</a></li>
+<li><a class="reference internal" href="#static-members">Static Members</a></li>
+<li><a class="reference internal" href="#interfaces">Interfaces</a></li>
+<li><a class="reference internal" href="#inheritance">Inheritance</a></li>
+<li><a class="reference internal" href="#enumerations">Enumerations</a></li>
+<li><a class="reference internal" href="#access-control-modifiers">Access Control Modifiers</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="collections.html"
+                        title="previous chapter">Collections</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="builtins.html"
+                        title="next chapter">Built-In Functions</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/classes.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="builtins.html" title="Built-In Functions"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="collections.html" title="Collections"
+             >previous</a> |</li>
+        <li><a href="index.html">Wasabi: The ??? Parts v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Fog Creek Software.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

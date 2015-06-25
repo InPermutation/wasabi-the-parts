@@ -1,0 +1,19 @@
+Glossary
+========
+
+.. glossary::
+
+	Nothing
+		Keyword that denotes an invalid reference.
+	
+	vbCr
+		Constant which provides a carriage return character (\\r)
+
+	vbCrLf
+		Constant which provides a Windows newline (\\r\\n)
+
+	vbLf
+		Constant which provides a line feed character (\\n)
+
+	vbTab
+		Constant which provides a tab characher (\\t)

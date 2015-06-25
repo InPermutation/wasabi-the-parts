@@ -1,0 +1,143 @@
+===========
+Collections
+===========
+
+.. index::
+	keyword: Array
+
+.. _Array:
+
+Arrays
+======
+`Arrays <http://en.wikipedia.org/wiki/Array_data_type>`_ provide a means to hold a strongly typed collection of objects. They can bee :keyword:`Array` function::
+
+	Dim xs = Array(1, 2, 3, 4)
+
+... or declared and initalized incrementally like so::
+	
+	Dim xs(2)
+	xs(0) = -1
+	xs(2) = 1
+
+... which creates an array with valid indexes ranging from 0 to 2. Unitialized indexes have the default value for the type (0 for numbers, :term:`Nothing` for reference types, etc). Arrays can be indexed like so::
+
+	Dim xs = Array(0, 1, 2, 3)
+	
+	' True
+	xs(2) > 0 
+
+	' False
+	xs(0) > 0
+	
+
+
+Type Annotations
+----------------
+For variables, function parameters and properties::
+
+	' Array of integers
+	Dim xs() As Int32
+
+	' Array of strings
+	Dim adjectives() As [System.String] 
+
+
+Function return types have their own rules, but parameters follow the same rules as variables::
+
+	Function MapInt(fn, xs() As Int32) As Int32()
+
+	Function MapString(fn, strings() As [System.String]) As [System.String]()
+
+
+.. index::
+	keyword: ReDim
+	keyword: ReDim Preserve
+
+.. _ReDim:
+.. _ReDim Preserve:
+
+ReDim
+-----
+.. warning::
+
+	:keyword:`ReDim` and :keyword:`ReDim Preserve` are inherited from VBScript. You should use a collection that handles resizing (like `ArrayList <http://msdn.microsoft.com/en-us/library/system.collections.arraylist.aspx>`_) rather than doing it yourself.
+
+:keyword:`ReDim` and :keyword:`ReDim Preserve` allow you to change the size of an array::
+
+	' An array with one cell
+	Dim xs(0)
+
+	' Resizes it to have two cells
+	ReDim xs(1)
+
+	
+
+	Dim ys = Array(1, 2, 3)
+
+	' Resizes the array and preserves the contents
+	ReDim Preserve ys(5)
+
+
+Utilities
+---------
+It's good to remember that Wasabi's arrays are simply .NET arrays. Consequently, you can use the utilities provided by `System.Array <http://msdn.microsoft.com/en-us/library/system.array.aspx>`_ when working with them::
+
+	Dim xs = Array(1, 2, 3, 4)
+	[System.Array].IndexOf(xs, 3)
+	[System.Array].Sort(xs)
+
+
+	
+:keyword:`FogCreek.Core.Arrays` also provides a number of utility functions that are useful when working with arrays::
+
+	Dim xs = Array(-4, -3, -2, -1, 0, 1, 2, 3, 4)
+	Dim ys = Arrays.FilterInt32(xs, Lambda (x) x > 0)
+
+	' Convert a .NET collection into a strongly-typed array
+	Dim bugs = Arrays.ArrayFromICollectionCBug(list)
+
+
+.. index::
+	keyword: Dictionary
+
+.. _Dictionary:
+
+Dictionaries
+============
+`Dictionaries <http://en.wikipedia.org/wiki/Associative_array>`_ provide a way to map string keys to a strongly typed collection of objects. They can be created using the :keyword:`Dictionary` function::
+
+	Dim dict{} As String = Dictionary()
+
+Elements are set and accessed using indexers::
+
+	dict("msg") = "Hello world!"
+	dict("name") = "Aaron"
+	
+	%><%= dict("name") %><%
+
+
+.. class:: Dictionary
+
+	.. method:: Add(key, value) 
+	
+		Adds a key-value pair to the dictionary.
+
+	.. method:: Exists(key)
+		
+		Returns true if the key exists in the dictionary.
+
+	.. method:: Items()
+
+		Returns an array of the values stored in the dictionary.
+
+	.. method:: Keys()
+
+		Returns an array of the keys stored int he dictionary.
+
+	.. method:: Remove(key)
+
+		Removes the key and associated value from the dictionary.
+
+	.. method:: RemoveAll()
+
+		Empties the dictionary.

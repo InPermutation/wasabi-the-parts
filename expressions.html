@@ -1,0 +1,607 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Expressions &mdash; Wasabi: The ??? Parts v0.1 documentation</title>
+    <link rel="stylesheet" href="_static/wasabi.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Wasabi: The ??? Parts v0.1 documentation" href="index.html" />
+    <link rel="next" title="Statements" href="statements.html" />
+    <link rel="prev" title="A First Program" href="a_first_program.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="statements.html" title="Statements"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="a_first_program.html" title="A First Program"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Wasabi: The ??? Parts v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="expressions">
+<h1>Expressions<a class="headerlink" href="#expressions" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="strings">
+<span id="index-0"></span><h2>Strings<a class="headerlink" href="#strings" title="Permalink to this headline">¶</a></h2>
+<p>Literal strings can be created using double quotes (<tt class="xref std std-token docutils literal"><span class="pre">&quot;</span></tt>):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="s">&quot;This is a string&quot;</span>
+</pre></div>
+</div>
+<p>Quotes that occur inside a string can be escaped by using <tt class="xref std std-token docutils literal"><span class="pre">&quot;&quot;</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="s">&quot;This string has a litteral double quote (&quot;&quot;) in it&quot;</span>
+</pre></div>
+</div>
+<p>Alternatively, multi-line strings can be created using <tt class="xref std std-token docutils literal"><span class="pre">&lt;&lt;&lt;</span></tt> and <tt class="xref std std-token docutils literal"><span class="pre">&gt;&gt;&gt;</span></tt> or <tt class="xref std std-token docutils literal"><span class="pre">&lt;&lt;[</span></tt> and <tt class="xref std std-token docutils literal"><span class="pre">]&gt;&gt;</span></tt>:</p>
+<div class="highlight-python"><pre>&lt;&lt;&lt;
+  This string extends over multiple lines,
+  with new lines, white space, and "quotes".
+  However, new lines and surrounding white space
+  are eliminated at compile time.
+&gt;&gt;&gt;
+
+&lt;&lt;[
+  This is a string that has new lines,
+  white space and "quotes" in it.
+]&gt;&gt;</pre>
+</div>
+<p>Strings can be joined together using the concatenation operator (<tt class="xref std std-token docutils literal"><span class="pre">&amp;</span></tt>):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="s">&quot;This is a string.&quot;</span> <span class="o">&amp;</span> <span class="s">&quot;This is another.&quot;</span>
+</pre></div>
+</div>
+<p>Wasabi&#8217;s string&#8217;s don&#8217;t support escape sequences like you might expect from other languages. Consequently, newlines and tabs are available as the named constants <a class="reference internal" href="glossary.html#term-vbcrlf"><em class="xref std std-term">vbCrLf</em></a> and <a class="reference internal" href="glossary.html#term-vbtab"><em class="xref std std-term">vbTab</em></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">vbTab</span> <span class="o">&amp;</span> <span class="s">&quot;This string starts with a tab and ends with a new line.&quot;</span> <span class="o">&amp;</span> <span class="n">vbCrLf</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="characters">
+<span id="index-1"></span><h2>Characters<a class="headerlink" href="#characters" title="Permalink to this headline">¶</a></h2>
+<p>Literal characters can be created using the character syntax:</p>
+<blockquote>
+<div>&#8220;a&#8221;C</div></blockquote>
+<p>... represents the character &#8216;a&#8217;.</p>
+</div>
+<div class="section" id="numbers">
+<span id="mod"></span><span id="index-2"></span><h2>Numbers<a class="headerlink" href="#numbers" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Wasabi Integers are 32 bit signed integers (<a class="reference external" href="http://msdn.microsoft.com/en-us/library/system.int32.aspx">System.Int32</a>). While .NET code can produce 64 bit integers (<a class="reference external" href="http://msdn.microsoft.com/en-us/library/system.int64.aspx">System.Int64</a>), Wasabi makes it very difficult to work with them, as it lacks any means of declaring that a number or variable is a 64 bit integera and continuously tries to convert them to 32 bit integers. If you really need to work with 64 bit integers, take a look at CDBCopier.was where I successfully worked around limitations in both Wasabi and our DB access layer by storing 64 bit integers as strings and converted them to Int64s just before passing them to .NET APIs that expected them.</p>
+<p class="last">Wasabi floating point numbers are double precision floating point numbers (<a class="reference external" href="http://msdn.microsoft.com/en-us/library/system.double.aspx">System.Double</a>).</p>
+</div>
+<p>Literal integers can be written normally:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="mi">12345</span>
+</pre></div>
+</div>
+<p>Literal floating point numbers can be written similarly:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="mf">12345.54321</span>
+</pre></div>
+</div>
+<p>Wasabi support the usual operators, in order of precedence:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="35%" />
+<col width="40%" />
+<col width="25%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Operator</th>
+<th class="head">Description</th>
+<th class="head">Precedence</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>()</td>
+<td>Grouping</td>
+<td>0</td>
+</tr>
+<tr><td>+</td>
+<td>Unary plus</td>
+<td>1</td>
+</tr>
+<tr><td>-</td>
+<td>Unary minus</td>
+<td>1</td>
+</tr>
+<tr><td>*</td>
+<td>Multiplication</td>
+<td>2</td>
+</tr>
+<tr><td>/</td>
+<td>Division</td>
+<td>2</td>
+</tr>
+<tr><td>\</td>
+<td>Integer division</td>
+<td>2</td>
+</tr>
+<tr><td><a class="reference internal" href="#mod"><tt class="xref std std-keyword docutils literal"><span class="pre">Mod</span></tt></a></td>
+<td>Modulus</td>
+<td>3</td>
+</tr>
+<tr><td>+</td>
+<td>Addition</td>
+<td>4</td>
+</tr>
+<tr><td>-</td>
+<td>Subtraction</td>
+<td>4</td>
+</tr>
+</tbody>
+</table>
+<p>For example:</p>
+<div class="highlight-python"><pre>&lt;%= -5 + 3 %&gt;, &lt;%= 15 * 3 - 8 \ 2 %&gt;, &lt;%= (2 + 3) * 5 mod 3 %&gt;</pre>
+</div>
+<p>... produces:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">41</span><span class="p">,</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="booleans">
+<span id="false"></span><span id="true"></span><span id="index-3"></span><h2>Booleans<a class="headerlink" href="#booleans" title="Permalink to this headline">¶</a></h2>
+<p>Literal booleans can be created using the <a class="reference internal" href="#true"><tt class="xref std std-keyword xref docutils literal"><span class="pre">True</span></tt></a> and <a class="reference internal" href="#false"><tt class="xref std std-keyword xref docutils literal"><span class="pre">False</span></tt></a> keywords:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="bp">True</span>
+<span class="bp">False</span>
+</pre></div>
+</div>
+<p>Wasabi supports a number of logical operators, in order of precedence:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="39%" />
+<col width="28%" />
+<col width="33%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Operator</th>
+<th class="head">Precedence</th>
+<th class="head">Notes</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><a class="reference internal" href="#not"><tt class="xref std std-keyword docutils literal"><span class="pre">Not</span></tt></a></td>
+<td>7</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td><a class="reference internal" href="#and"><tt class="xref std std-keyword docutils literal"><span class="pre">And</span></tt></a></td>
+<td>8</td>
+<td>(1)</td>
+</tr>
+<tr><td><a class="reference internal" href="#or"><tt class="xref std std-keyword docutils literal"><span class="pre">Or</span></tt></a></td>
+<td>9</td>
+<td>(2)</td>
+</tr>
+<tr><td><a class="reference internal" href="#xor"><tt class="xref std std-keyword docutils literal"><span class="pre">Xor</span></tt></a></td>
+<td>10</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td><a class="reference internal" href="#eqv"><tt class="xref std std-keyword docutils literal"><span class="pre">Eqv</span></tt></a></td>
+<td>11</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td><a class="reference internal" href="#imp"><tt class="xref std std-keyword docutils literal"><span class="pre">Imp</span></tt></a></td>
+<td>12</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<p>Notes:</p>
+<ol class="arabic simple">
+<li>This is a short-circuit operator, so it only evaluates the second argument if the first one is <tt class="xref py py-const xref docutils literal"><span class="pre">True</span></tt>.</li>
+<li>This is a short-circuit operator, so it only evaluates the second argument if the first one is <tt class="xref py py-const xref docutils literal"><span class="pre">False</span></tt>.</li>
+</ol>
+<div class="section" id="and">
+<span id="index-4"></span><span id="id1"></span><h3>And<a class="headerlink" href="#and" title="Permalink to this headline">¶</a></h3>
+<p>True if and only if both arguments are true:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="29%" />
+<col width="29%" />
+<col width="41%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">A</th>
+<th class="head">B</th>
+<th class="head">A And B</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>True</td>
+<td>True</td>
+<td>True</td>
+</tr>
+<tr><td>True</td>
+<td>False</td>
+<td>False</td>
+</tr>
+<tr><td>False</td>
+<td>True</td>
+<td>False</td>
+</tr>
+<tr><td>False</td>
+<td>False</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="eqv">
+<span id="index-5"></span><span id="id2"></span><h3>Eqv<a class="headerlink" href="#eqv" title="Permalink to this headline">¶</a></h3>
+<p>Equivalence. True if and only if both arguments are true or both arguments are false:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="29%" />
+<col width="29%" />
+<col width="41%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">A</th>
+<th class="head">B</th>
+<th class="head">A Eqv B</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>True</td>
+<td>True</td>
+<td>True</td>
+</tr>
+<tr><td>True</td>
+<td>False</td>
+<td>False</td>
+</tr>
+<tr><td>False</td>
+<td>True</td>
+<td>False</td>
+</tr>
+<tr><td>False</td>
+<td>False</td>
+<td>True</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="imp">
+<span id="index-6"></span><span id="id3"></span><h3>Imp<a class="headerlink" href="#imp" title="Permalink to this headline">¶</a></h3>
+<p>Implication. False if and only if it&#8217;s first argument is false and the second is true:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="29%" />
+<col width="29%" />
+<col width="41%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">A</th>
+<th class="head">B</th>
+<th class="head">A Imp B</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>True</td>
+<td>True</td>
+<td>True</td>
+</tr>
+<tr><td>True</td>
+<td>False</td>
+<td>False</td>
+</tr>
+<tr><td>False</td>
+<td>True</td>
+<td>True</td>
+</tr>
+<tr><td>False</td>
+<td>False</td>
+<td>True</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="not">
+<span id="index-7"></span><span id="id4"></span><h3>Not<a class="headerlink" href="#not" title="Permalink to this headline">¶</a></h3>
+<p>True if and only if it&#8217;s argument is false:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">A</th>
+<th class="head">Not A</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>True</td>
+<td>False</td>
+</tr>
+<tr><td>False</td>
+<td>True</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="or">
+<span id="index-8"></span><span id="id5"></span><h3>Or<a class="headerlink" href="#or" title="Permalink to this headline">¶</a></h3>
+<p>True if either argument is true:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="29%" />
+<col width="29%" />
+<col width="41%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">A</th>
+<th class="head">B</th>
+<th class="head">A Or B</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>True</td>
+<td>True</td>
+<td>True</td>
+</tr>
+<tr><td>True</td>
+<td>False</td>
+<td>True</td>
+</tr>
+<tr><td>False</td>
+<td>True</td>
+<td>True</td>
+</tr>
+<tr><td>False</td>
+<td>False</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="xor">
+<span id="index-9"></span><span id="id6"></span><h3>Xor<a class="headerlink" href="#xor" title="Permalink to this headline">¶</a></h3>
+<p>Exclusive or. True if and only if one of it&#8217;s arguments is true:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="29%" />
+<col width="29%" />
+<col width="41%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">A</th>
+<th class="head">B</th>
+<th class="head">A Xor B</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>True</td>
+<td>True</td>
+<td>False</td>
+</tr>
+<tr><td>True</td>
+<td>False</td>
+<td>True</td>
+</tr>
+<tr><td>False</td>
+<td>True</td>
+<td>True</td>
+</tr>
+<tr><td>False</td>
+<td>False</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="comparisons">
+<h2>Comparisons<a class="headerlink" href="#comparisons" title="Permalink to this headline">¶</a></h2>
+<p>Wasabi supports the usual comparison operators:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="76%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Operator</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>&lt;</td>
+<td>Less than</td>
+</tr>
+<tr><td>&lt;=</td>
+<td>Less than or equal to</td>
+</tr>
+<tr><td>&gt;</td>
+<td>Greater than</td>
+</tr>
+<tr><td>&gt;=</td>
+<td>Greater than or equal to</td>
+</tr>
+<tr><td>=</td>
+<td>Equal</td>
+</tr>
+<tr><td>&lt;&gt;</td>
+<td>Different than</td>
+</tr>
+</tbody>
+</table>
+<p>For example:</p>
+<div class="highlight-python"><pre>&lt;%= 5 &gt; 3 %&gt;, &lt;%= "" &lt;&gt; 10 %&gt;, &lt;%= 0.5 &lt; 0 %&gt;</pre>
+</div>
+<p>... produces:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="bp">True</span><span class="p">,</span> <span class="bp">True</span><span class="p">,</span> <span class="bp">False</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="conditional">
+<h2>Conditional<a class="headerlink" href="#conditional" title="Permalink to this headline">¶</a></h2>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Before the conditional operator was implmented in Wasabi, work-a-like functions were created in the form of <tt class="docutils literal"><span class="pre">sIif</span></tt>, <tt class="docutils literal"><span class="pre">nIif</span></tt>, <tt class="docutils literal"><span class="pre">dtIif</span></tt>, and <tt class="docutils literal"><span class="pre">vIif</span></tt>. You should use the conditional operator in preference to these functions.</p>
+</div>
+<p>Wasabi supports a C-style conditional operator:</p>
+<div class="highlight-python"><pre>&lt;predicate&gt; ? &lt;first&gt; : &lt;second&gt;</pre>
+</div>
+<p>... which returns the <tt class="docutils literal"><span class="pre">&lt;first&gt;</span></tt> expression if the <tt class="docutils literal"><span class="pre">&lt;predicate&gt;</span></tt> is true, otherwise it returns the <tt class="docutils literal"><span class="pre">&lt;second&gt;</span></tt>.</p>
+</div>
+<div class="section" id="summary-of-operators">
+<h2>Summary of Operators<a class="headerlink" href="#summary-of-operators" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="58%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Precedence</th>
+<th class="head">Operators</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>0</td>
+<td>()</td>
+</tr>
+<tr><td>1</td>
+<td>+ - (Unary)</td>
+</tr>
+<tr><td>2</td>
+<td>* / \</td>
+</tr>
+<tr><td>3</td>
+<td><a class="reference internal" href="#mod"><tt class="xref std std-keyword docutils literal"><span class="pre">Mod</span></tt></a></td>
+</tr>
+<tr><td>4</td>
+<td>+ -</td>
+</tr>
+<tr><td>5</td>
+<td>&amp;</td>
+</tr>
+<tr><td>6</td>
+<td>= &lt;&gt; &lt; &gt; &lt;= &gt;=</td>
+</tr>
+<tr><td>7</td>
+<td><a class="reference internal" href="#not"><tt class="xref std std-keyword docutils literal"><span class="pre">Not</span></tt></a></td>
+</tr>
+<tr><td>8</td>
+<td><a class="reference internal" href="#and"><tt class="xref std std-keyword docutils literal"><span class="pre">And</span></tt></a></td>
+</tr>
+<tr><td>9</td>
+<td><a class="reference internal" href="#or"><tt class="xref std std-keyword docutils literal"><span class="pre">Or</span></tt></a></td>
+</tr>
+<tr><td>10</td>
+<td><a class="reference internal" href="#xor"><tt class="xref std std-keyword docutils literal"><span class="pre">Xor</span></tt></a></td>
+</tr>
+<tr><td>11</td>
+<td><a class="reference internal" href="#eqv"><tt class="xref std std-keyword docutils literal"><span class="pre">Eqv</span></tt></a></td>
+</tr>
+<tr><td>12</td>
+<td><a class="reference internal" href="#imp"><tt class="xref std std-keyword docutils literal"><span class="pre">Imp</span></tt></a></td>
+</tr>
+<tr><td>13</td>
+<td>?:</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Expressions</a><ul>
+<li><a class="reference internal" href="#strings">Strings</a></li>
+<li><a class="reference internal" href="#characters">Characters</a></li>
+<li><a class="reference internal" href="#numbers">Numbers</a></li>
+<li><a class="reference internal" href="#booleans">Booleans</a><ul>
+<li><a class="reference internal" href="#and">And</a></li>
+<li><a class="reference internal" href="#eqv">Eqv</a></li>
+<li><a class="reference internal" href="#imp">Imp</a></li>
+<li><a class="reference internal" href="#not">Not</a></li>
+<li><a class="reference internal" href="#or">Or</a></li>
+<li><a class="reference internal" href="#xor">Xor</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#comparisons">Comparisons</a></li>
+<li><a class="reference internal" href="#conditional">Conditional</a></li>
+<li><a class="reference internal" href="#summary-of-operators">Summary of Operators</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="a_first_program.html"
+                        title="previous chapter">A First Program</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="statements.html"
+                        title="next chapter">Statements</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/expressions.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="statements.html" title="Statements"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="a_first_program.html" title="A First Program"
+             >previous</a> |</li>
+        <li><a href="index.html">Wasabi: The ??? Parts v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Fog Creek Software.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

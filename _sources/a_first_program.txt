@@ -1,0 +1,31 @@
+A First Program
+===============
+A guide to a programming language would be incomplete without at least one complete program and since Wasabi is intimately tied to generating web pages here's a Wasabi program for generating a simple HTML page::
+
+	<% 
+	<WebEntryPoint("example.asp")> _
+	Sub Example()
+	  %>
+	  <!DOCTYPE html>
+	  <html>
+	    <head>
+	      <title>An Example Wasabi Program</title>
+	      <meta charset="utf-8">
+	    </head>
+	    <body>
+	      <h1>An Example Wasabi Program</h1>
+	      <p>Arithmetic: 1 + 1 = <%= 1 + 1 %></p>
+	      <p>Dynamic Content: x + y = <%= IntRequest("x") + IntRequest("y") %>
+	    </body>
+	  </html>
+	  <%
+	End Sub
+	%>
+
+A couple of interesting things about this program:
+
+1. The entire thing is enclosed in tie-fighters (:token:`<%` :token:`%>`). This is a consequence of it's classic ASP heritage where each file was assumed to be generating a web page and so FogBugz's entire Wasabi code base lives inside :token:`<%` and :token:`%>` so it's not dumped directly to the response.
+
+2. ``<WebEntryPoint("example.asp")>`` is an annotation that marks the following subroutine as generating a web page at ``/example.asp``.
+
+3. [1] combined with [2] result in actual content destined for the response being wrapped in reverse-tie-fighters (:token:`%>` :token:`<%`) with dynamic content being injected with :token:`<%=` :token:`%>`.

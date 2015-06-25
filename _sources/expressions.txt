@@ -1,0 +1,318 @@
+===========
+Expressions
+===========
+
+.. index::
+	pair: literal; string
+	token: "
+	token: <<<
+	token: >>>
+	token: ""
+	operator: &
+
+Strings
+=======
+Literal strings can be created using double quotes (:token:`"`)::
+
+	"This is a string"
+
+Quotes that occur inside a string can be escaped by using :token:`""`::
+
+	"This string has a litteral double quote ("") in it"
+
+Alternatively, multi-line strings can be created using :token:`<<<` and :token:`>>>` or :token:`<<[` and :token:`]>>`::
+
+	<<<
+	  This string extends over multiple lines,
+	  with new lines, white space, and "quotes".
+	  However, new lines and surrounding white space
+	  are eliminated at compile time.
+	>>>
+
+	<<[
+	  This is a string that has new lines,
+	  white space and "quotes" in it.
+	]>>
+
+Strings can be joined together using the concatenation operator (:token:`&`)::
+
+	"This is a string." & "This is another."
+
+Wasabi's string's don't support escape sequences like you might expect from other languages. Consequently, newlines and tabs are available as the named constants :term:`vbCrLf` and :term:`vbTab`::
+
+	vbTab & "This string starts with a tab and ends with a new line." & vbCrLf
+
+
+.. index::
+	pair: literal; character
+
+Characters
+==========
+Literal characters can be created using the character syntax:
+
+	"a"C
+
+... represents the character 'a'.
+
+
+.. index::
+	pair: literal; integer
+	pair: literal; float
+	operator: +
+	operator: -
+	operator: /
+	operator: \
+	operator: *
+	operator: Mod
+
+.. _Mod:
+
+Numbers
+=======
+.. note::
+
+	Wasabi Integers are 32 bit signed integers (`System.Int32 <http://msdn.microsoft.com/en-us/library/system.int32.aspx>`_). While .NET code can produce 64 bit integers (`System.Int64 <http://msdn.microsoft.com/en-us/library/system.int64.aspx>`_), Wasabi makes it very difficult to work with them, as it lacks any means of declaring that a number or variable is a 64 bit integera and continuously tries to convert them to 32 bit integers. If you really need to work with 64 bit integers, take a look at CDBCopier.was where I successfully worked around limitations in both Wasabi and our DB access layer by storing 64 bit integers as strings and converted them to Int64s just before passing them to .NET APIs that expected them.
+
+	Wasabi floating point numbers are double precision floating point numbers (`System.Double <http://msdn.microsoft.com/en-us/library/system.double.aspx>`_).
+
+
+Literal integers can be written normally::
+
+	12345
+
+Literal floating point numbers can be written similarly::
+
+	12345.54321
+
+Wasabi support the usual operators, in order of precedence:
+
+==============  ================  ==========
+Operator        Description       Precedence
+==============  ================  ==========
+()              Grouping          0
+\+              Unary plus        1
+\-              Unary minus       1
+\*              Multiplication    2
+/               Division          2
+\\              Integer division  2
+:keyword:`Mod`  Modulus           3
+\+              Addition          4
+\-              Subtraction       4
+==============  ================  ==========
+
+
+
+For example::
+
+	<%= -5 + 3 %>, <%= 15 * 3 - 8 \ 2 %>, <%= (2 + 3) * 5 mod 3 %>
+
+... produces::
+
+    -2, 41, 1
+
+.. index::
+	keyword: True
+	keyword: False
+
+.. _True:
+.. _False:
+
+Booleans
+========
+Literal booleans can be created using the :keyword:`True` and :keyword:`False` keywords::
+
+    True
+    False
+
+Wasabi supports a number of logical operators, in order of precedence:
+
+==============  ==========	=====
+Operator        Precedence	Notes
+==============  ==========	=====
+:keyword:`Not`   7
+:keyword:`And`   8			\(1)
+:keyword:`Or`    9			\(2)
+:keyword:`Xor`  10
+:keyword:`Eqv`  11
+:keyword:`Imp`  12
+==============  ==========	=====
+
+Notes:
+
+1. This is a short-circuit operator, so it only evaluates the second argument if the first one is :const:`True`.
+2. This is a short-circuit operator, so it only evaluates the second argument if the first one is :const:`False`.
+
+.. index::
+    operator: And
+
+.. _And:
+
+And
+---
+True if and only if both arguments are true:
+
+===== =====  =======
+A     B      A And B
+===== =====  =======
+True  True   True
+True  False  False
+False True   False
+False False  False
+===== =====  =======
+
+
+.. index::
+    single: Equivalence
+    operator: Eqv
+
+.. _Eqv:
+
+Eqv
+---
+Equivalence. True if and only if both arguments are true or both arguments are false:
+
+===== =====  =======
+A     B      A Eqv B
+===== =====  =======
+True  True   True
+True  False  False
+False True   False
+False False  True
+===== =====  =======
+
+
+.. index::
+    single: Implication
+    operator: Imp
+
+.. _Imp:
+
+Imp
+---
+Implication. False if and only if it's first argument is false and the second is true:
+
+===== =====  =======
+A     B      A Imp B
+===== =====  =======
+True  True   True
+True  False  False
+False True   True
+False False  True
+===== =====  =======
+
+.. index::
+    operator: Not
+
+.. _Not:
+
+Not
+---
+True if and only if it's argument is false:
+
+===== =====
+A     Not A
+===== =====
+True  False
+False True
+===== =====
+
+
+.. index::
+    operator: Or
+
+.. _Or:
+
+Or
+--
+True if either argument is true:
+
+===== =====  =======
+A     B      A Or B
+===== =====  =======
+True  True   True
+True  False  True
+False True   True
+False False  False
+===== =====  =======
+
+
+.. index::
+    single: Exclusive Or
+	operator: Xor
+
+.. _Xor:
+
+Xor
+---
+
+Exclusive or. True if and only if one of it's arguments is true:
+
+===== =====  =======
+A     B      A Xor B
+===== =====  =======
+True  True   False
+True  False  True
+False True   True
+False False  False
+===== =====  =======
+
+Comparisons
+===========
+
+Wasabi supports the usual comparison operators:
+
+========    =========================
+Operator    Description
+========    =========================
+<           Less than
+<=          Less than or equal to
+>           Greater than
+>=          Greater than or equal to
+=           Equal
+<>          Different than
+========    =========================
+
+For example::
+
+	<%= 5 > 3 %>, <%= "" <> 10 %>, <%= 0.5 < 0 %>
+
+... produces::
+
+    True, True, False 
+
+
+Conditional
+===========
+
+.. warning::
+
+	Before the conditional operator was implmented in Wasabi, work-a-like functions were created in the form of ``sIif``, ``nIif``, ``dtIif``, and ``vIif``. You should use the conditional operator in preference to these functions.
+
+Wasabi supports a C-style conditional operator::
+
+    <predicate> ? <first> : <second>
+
+... which returns the ``<first>`` expression if the ``<predicate>`` is true, otherwise it returns the ``<second>``.
+
+
+Summary of Operators
+====================
+
+==========  ==============
+Precedence  Operators
+==========  ==============
+ 0          ()
+ 1          \+ \- (Unary)
+ 2          \* / \\
+ 3          :keyword:`Mod`
+ 4          \+ \-
+ 5          &
+ 6          = <> < > <= >=
+ 7          :keyword:`Not`
+ 8          :keyword:`And`
+ 9          :keyword:`Or`
+10          :keyword:`Xor`
+11          :keyword:`Eqv`
+12          :keyword:`Imp`
+13          ?:
+==========  ==============
